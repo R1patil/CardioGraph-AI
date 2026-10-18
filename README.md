@@ -9,7 +9,7 @@
 ### 📦 Graph Hacks Submission Quick-Links
 | Deliverable | Status / Link | Details |
 |---|---|---|
-| **Public GitHub Repo** | [CardioGraph-AI](https://github.com/Rahul/CardioGraph-AI) | Open source codebase, seeds, and API |
+| **Public GitHub Repo** | [CardioGraph-AI](https://github.com/R1patil/CardioGraph-AI) | Open source codebase, seeds, and API |
 | **FalkorDB Graph Model** | [View Graph Model Below](#4-falkordb-vascular-graph-schema) | Complete schema, node properties, and Mermaid diagram |
 | **Live Web Application** | [CardioGraph AI Live App](https://cardiograph-ai.onrender.com) | Interactive vascular cockpit & LangGraph agent |
 | **Demo Walkthrough Video** | [Watch Demo Video (YouTube / Loom)](https://youtu.be/your-demo-video-link) | 3-minute clinical & technical walkthrough |
@@ -261,6 +261,7 @@ In compliance with the Graph Hacks hackathon regulations (*"AI coding tools are 
 
 ## 12. Team & Acknowledgments
 
+- **Author / Developer**: Rahul Patil ([@R1patil](https://github.com/R1patil) — `rahulbpatil913@gmail.com`)
 - **Hackathon**: WeMakeDevs Graph Hacks (Powered by FalkorDB)
 - **Scientific Inspiration**: Sir Demis Hassabis (AlphaFold ApoB100 structural model) and Dario Amodei (Anthropic Biophysics).
-- **Core Technologies**: FalkorDB, GraphBLAS, FastAPI, LangGraph, Model Context Protocol (MCP).
+- **Core Technologies**: FalkorDB, GraphBLAS, FastAPI, LangGraph, Model Context Protocol (MCP), Groq AI.
