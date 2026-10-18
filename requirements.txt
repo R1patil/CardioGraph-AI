@@ -4,3 +4,4 @@ pydantic>=2.6.0
 langgraph>=0.0.30
 langchain>=0.1.14
 falkordb>=1.0.0
+python-dotenv>=1.0.0

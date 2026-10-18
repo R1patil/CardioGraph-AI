@@ -24,6 +24,12 @@ from typing import Any, Dict, List, Optional, Tuple
 from dataset import generate_cohort, export_dataset_to_dict
 
 try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    pass
+
+try:
     import falkordb
     from falkordb import FalkorDB, Graph
     FALKORDB_AVAILABLE = True
