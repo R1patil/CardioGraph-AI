@@ -798,6 +798,7 @@ function animateViewBoxTo(target, duration = 350) {
 
 function toggleCanvasMaximize(forceState) {
   const tabVascular = $('#tab-vascular');
+  const mainContent = $('#main-content');
   if (!tabVascular) return;
 
   if (typeof forceState === 'boolean') {
@@ -807,7 +808,11 @@ function toggleCanvasMaximize(forceState) {
   }
 
   tabVascular.classList.toggle('canvas-maximized', isCanvasMaximized);
+  if (mainContent) {
+    mainContent.classList.toggle('canvas-maximized', isCanvasMaximized);
+  }
 
+  // Update controls bar button
   const btn = $('#btn-toggle-fullscreen');
   if (btn) {
     btn.classList.toggle('active', isCanvasMaximized);
@@ -815,6 +820,19 @@ function toggleCanvasMaximize(forceState) {
     btn.title = isCanvasMaximized
       ? 'Restore top stat cards and bottom perfusion panels (or press ESC)'
       : 'Maximize Tree View (Hides top & bottom boxes for full unobstructed view)';
+  }
+
+  // Update floating button on canvas
+  const floatBtn = $('#btn-floating-maximize');
+  const floatLabel = $('#floating-btn-label');
+  if (floatBtn) {
+    floatBtn.classList.toggle('active', isCanvasMaximized);
+    floatBtn.title = isCanvasMaximized
+      ? 'Restore top stat cards and bottom perfusion panels (or press ESC)'
+      : 'Maximize Tree View (Hides top & bottom boxes for full unobstructed view)';
+  }
+  if (floatLabel) {
+    floatLabel.textContent = isCanvasMaximized ? 'Restore Panels' : 'Maximize Canvas';
   }
 }
 
@@ -2033,6 +2051,7 @@ function setupEventListeners() {
   $('#btn-zoom-reset')?.addEventListener('click', () => resetCanvasZoom());
   $('#btn-zoom-focus')?.addEventListener('click', () => focusOnPlaque());
   $('#btn-toggle-fullscreen')?.addEventListener('click', () => toggleCanvasMaximize());
+  $('#btn-floating-maximize')?.addEventListener('click', () => toggleCanvasMaximize());
 
   // Escape key restores panels
   window.addEventListener('keydown', (e) => {

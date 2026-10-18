@@ -3107,3 +3107,52 @@ a:hover { text-decoration: underline; }
   font-weight: 800 !important;
   box-shadow: 0 0 16px rgba(6, 182, 212, 0.6) !important;
 }
+
+/* If Split View is active, canvas-maximized takes priority for 100% full width */
+.split-active.canvas-maximized .dashboard-views-container {
+  grid-template-columns: 1fr !important;
+}
+.split-active.canvas-maximized #tab-chat {
+  display: none !important;
+}
+
+/* Floating Maximize Canvas Button */
+.canvas-floating-maximize-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid var(--accent-cyan);
+  border-radius: var(--radius-full);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(6, 182, 212, 0.35);
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.canvas-floating-maximize-btn:hover {
+  background: rgba(6, 182, 212, 0.25);
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(6, 182, 212, 0.55);
+}
+
+.canvas-floating-maximize-btn.active {
+  background: var(--accent-cyan) !important;
+  color: #041019 !important;
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.7) !important;
+}
+
+.canvas-floating-maximize-btn .btn-icon {
+  font-size: 1rem;
+}
