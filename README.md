@@ -93,11 +93,11 @@ graph TD
 
     P -->|HAS_VASCULAR_TREE| A1
     P -->|HAS_BIOMARKERS| BIO
-    A1 -->|FLOWS_INTO {resistance, split}| A2
+    A1 -->|"FLOWS_INTO (resistance, split)"| A2
     A2 -->|CONTAINS_PLAQUE| PLQ
-    PLQ -->|ADJACENT_TO {distance_mm}| BIF
-    BIO -->|DESTABILIZES {hazard_multiplier}| PLQ
-    A2 -->|PERFUSES {weight}| MZ
+    PLQ -->|"ADJACENT_TO (distance_mm)"| BIF
+    BIO -->|"DESTABILIZES (hazard_multiplier)"| PLQ
+    A2 -->|"PERFUSES (weight)"| MZ
 ```
 
 ### Node Labels
