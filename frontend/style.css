@@ -2388,3 +2388,597 @@ a:hover { text-decoration: underline; }
     padding-bottom: 4px;
   }
 }
+
+/* ==========================================================================
+   EASY 3-STEP GUIDE STRIP
+   ========================================================================== */
+
+.user-guide-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 12px 20px;
+  gap: 16px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.4s ease-out;
+}
+
+.guide-strip-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.guide-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 4px 10px;
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.guide-steps {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+
+.guide-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.guide-step mark {
+  background: rgba(244, 63, 94, 0.2);
+  color: var(--accent-rose);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+}
+
+.step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  color: var(--accent-cyan);
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-medium);
+}
+
+.guide-arrow {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.btn-guide-explainer {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(59, 130, 246, 0.25) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: var(--radius-full);
+  color: #e0f2fe;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+}
+
+.btn-guide-explainer:hover {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.3) 0%, rgba(59, 130, 246, 0.4) 100%);
+  border-color: var(--accent-cyan);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+}
+
+/* ==========================================================================
+   CANVAS ZOOM CONTROLS
+   ========================================================================== */
+
+.zoom-controls-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-secondary);
+  padding: 3px 6px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.btn-zoom {
+  padding: 4px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.btn-zoom:hover {
+  background: var(--bg-elevated);
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+}
+
+.btn-zoom-focus {
+  background: rgba(244, 63, 94, 0.15);
+  border-color: rgba(244, 63, 94, 0.35);
+  color: var(--accent-rose);
+  font-weight: 700;
+}
+
+.btn-zoom-focus:hover {
+  background: rgba(244, 63, 94, 0.25);
+  border-color: var(--accent-rose);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(244, 63, 94, 0.4);
+}
+
+.zoom-level-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-muted);
+  padding: 2px 6px;
+}
+
+/* Animated Zoom Focus Ring on SVG */
+.focus-highlight-ring {
+  fill: none;
+  stroke: var(--accent-cyan);
+  stroke-width: 3;
+  stroke-dasharray: 6 4;
+  animation: rotateFocusRing 6s linear infinite, pulseGlow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes rotateFocusRing {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulseGlow {
+  from { filter: drop-shadow(0 0 4px #06b6d4); opacity: 0.7; }
+  to { filter: drop-shadow(0 0 16px #38bdf8); opacity: 1; }
+}
+
+/* ==========================================================================
+   ANATOMICAL VESSEL ZOOM MODAL (CROSS-SECTION PICTURE)
+   ========================================================================== */
+
+.modal-zoom-card {
+  width: 940px;
+  max-width: 95vw;
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.zoom-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: var(--bg-tertiary);
+  border-bottom: 1px solid var(--border-medium);
+}
+
+.zoom-vessel-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: rgba(244, 63, 94, 0.2);
+  color: var(--accent-rose);
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  display: inline-block;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.zoom-vessel-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.zoom-vessel-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.zoom-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-zoom-action {
+  padding: 6px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-zoom-action:hover {
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.1);
+}
+
+.zoom-modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.zoom-visual-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 20px;
+}
+
+.zoom-picture-box {
+  background: #0b0f19;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.picture-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.picture-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.picture-status-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  background: rgba(244, 63, 94, 0.2);
+  color: var(--accent-rose);
+  border: 1px solid rgba(244, 63, 94, 0.4);
+  border-radius: var(--radius-full);
+}
+
+.cross-section-svg-wrapper {
+  width: 100%;
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, #172033 0%, #0a0d17 80%);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+}
+
+.cross-section-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  padding: 4px 6px;
+  justify-content: center;
+}
+
+.cs-leg-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cs-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.dot-lumen { background: #38bdf8; box-shadow: 0 0 6px #38bdf8; }
+.dot-lipid { background: #f59e0b; box-shadow: 0 0 6px #f59e0b; }
+.dot-cap { background: #f43f5e; box-shadow: 0 0 6px #f43f5e; }
+.dot-wall { background: #475569; }
+
+.zoom-stats-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.stats-heading {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.zoom-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.zoom-metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.zm-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.zm-value {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.zm-value.danger { color: var(--accent-rose); }
+.zm-value.warning { color: var(--accent-amber); }
+
+.zm-sub {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.zm-sub.danger { color: #fda4af; }
+
+.zoom-actions-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.btn-zoom-sim {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.25) 0%, rgba(220, 38, 38, 0.4) 100%);
+  border: 1px solid var(--accent-rose);
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-zoom-sim:hover {
+  background: linear-gradient(135deg, rgba(244, 63, 94, 0.4) 0%, rgba(220, 38, 38, 0.6) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.4);
+}
+
+.btn-zoom-chat {
+  padding: 10px 16px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  color: var(--accent-cyan);
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-zoom-chat:hover {
+  background: rgba(6, 182, 212, 0.12);
+  border-color: var(--accent-cyan);
+}
+
+/* 4-Card Plain English Breakdown */
+.zoom-explainer-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.z-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.z-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.z-icon {
+  font-size: 1.1rem;
+}
+
+.z-card-header h4 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.z-card p {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.z-card.danger-card {
+  background: rgba(244, 63, 94, 0.06);
+  border-color: rgba(244, 63, 94, 0.25);
+}
+
+.z-card.danger-card .z-card-header h4 {
+  color: var(--accent-rose);
+}
+
+.z-card.benefit-card {
+  background: rgba(16, 185, 129, 0.06);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.z-card.benefit-card .z-card-header h4 {
+  color: var(--accent-emerald);
+}
+
+/* ==========================================================================
+   PRODUCT GUIDE MODAL STYLING
+   ========================================================================== */
+
+.guide-modal-content {
+  width: 900px;
+}
+
+.guide-modal-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.guide-modal-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  letter-spacing: 0.8px;
+}
+
+.guide-modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.guide-hero-box {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(59, 130, 246, 0.18) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+}
+
+.guide-hero-box h4 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #e0f2fe;
+  margin-bottom: 6px;
+}
+
+.guide-hero-box p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.guide-sections-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.g-section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.g-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.g-icon {
+  font-size: 1.25rem;
+}
+
+.g-card-header h4 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.g-section-card p {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.guide-steps-list {
+  padding-left: 18px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.guide-steps-list li {
+  margin-bottom: 6px;
+}
+
+@media (max-width: 900px) {
+  .zoom-visual-grid,
+  .zoom-explainer-cards,
+  .guide-sections-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -248,20 +248,48 @@
             </div>
           </div>
 
+          <!-- EASY 3-STEP GUIDE & PRODUCT BENEFIT BANNER -->
+          <div class="user-guide-strip" id="user-guide-strip">
+            <div class="guide-strip-left">
+              <span class="guide-badge">💡 Quick Walkthrough</span>
+              <div class="guide-steps">
+                <span class="guide-step"><span class="step-num">1</span> Pick Patient (e.g. <strong>Marcus Vance</strong>)</span>
+                <span class="guide-arrow">➔</span>
+                <span class="guide-step"><span class="step-num">2</span> <strong>Click Any Vessel to Zoom &amp; See Picture</strong></span>
+                <span class="guide-arrow">➔</span>
+                <span class="guide-step"><span class="step-num">3</span> <strong>Simulate Rupture</strong> to test CODE STEMI</span>
+              </div>
+            </div>
+            <button class="btn-guide-explainer" id="btn-open-guide-modal" title="Click to understand how CardioGraph AI saves lives">
+              <span class="explainer-icon">📖</span>
+              <span>What is this product &amp; How it works?</span>
+            </button>
+          </div>
+
           <!-- VASCULAR TREE INTERACTIVE CANVAS SECTION -->
           <div class="vascular-stage-container">
             <div class="stage-header">
               <div class="stage-header-left">
                 <h3 class="stage-title">Coronary Vascular Flow Tree</h3>
-                <span class="stage-caption">Directed Hemodynamic Graph (FalkorDB Directed Reachability Model)</span>
+                <span class="stage-caption">Directed Hemodynamic Graph · Click any vessel to zoom in &amp; inspect</span>
               </div>
               <div class="stage-controls">
-                <div class="tree-filter-pills">
-                  <button class="filter-pill active" data-filter="all">All Vessels (17)</button>
-                  <button class="filter-pill" data-filter="LCA">LAD / Left Main</button>
-                  <button class="filter-pill" data-filter="LCX">Circumflex (LCx)</button>
-                  <button class="filter-pill" data-filter="RCA">Right Coronary (RCA)</button>
+                <!-- Zoom & Pan Controls -->
+                <div class="zoom-controls-group">
+                  <button class="btn-zoom" id="btn-zoom-in" title="Zoom In (+)">🔍 +</button>
+                  <button class="btn-zoom" id="btn-zoom-out" title="Zoom Out (−)">🔍 −</button>
+                  <button class="btn-zoom" id="btn-zoom-reset" title="Reset to Full Heart View (100%)">⟲ Reset</button>
+                  <button class="btn-zoom btn-zoom-focus" id="btn-zoom-focus" title="Zoom directly into patient's critical plaque">🎯 Focus Plaque</button>
+                  <span class="zoom-level-badge" id="zoom-level-badge">100%</span>
                 </div>
+
+                <div class="tree-filter-pills">
+                  <button class="filter-pill active" data-filter="all">All (17)</button>
+                  <button class="filter-pill" data-filter="LCA">LAD / LM</button>
+                  <button class="filter-pill" data-filter="LCX">LCx</button>
+                  <button class="filter-pill" data-filter="RCA">RCA</button>
+                </div>
+
                 <div class="stage-quick-buttons">
                   <button class="btn-stage-action" id="btn-sim-rupture-canvas">
                     ⚡ Trigger Rupture
@@ -813,6 +841,191 @@
         </div>
       </div>
     </div>
+
+    <!-- ANATOMICAL VESSEL & PLAQUE ZOOM MODAL (WITH CROSS-SECTION PICTURE) -->
+    <div class="modal-overlay" id="vessel-zoom-modal" style="display:none;">
+      <div class="modal-card modal-zoom-card">
+        <div class="modal-header zoom-modal-header">
+          <div class="zoom-header-info">
+            <span class="zoom-vessel-badge" id="zoom-vessel-badge">LAD PROXIMAL</span>
+            <h3 class="zoom-vessel-title" id="zoom-vessel-title">Left Anterior Descending Artery</h3>
+            <p class="zoom-vessel-subtitle" id="zoom-vessel-subtitle">The "Widow Maker" Artery — Primary Left Ventricle Blood Supply</p>
+          </div>
+          <div class="zoom-header-actions">
+            <button class="btn-zoom-action" id="btn-zoom-closer" title="Zoom in closer">🔍 Zoom Closer</button>
+            <button class="btn-zoom-action" id="btn-zoom-reset-from-modal" title="Reset view">⟲ Reset Zoom</button>
+            <button class="modal-close" id="zoom-modal-close">&times;</button>
+          </div>
+        </div>
+        <div class="modal-body zoom-modal-body">
+          <!-- TOP ROW: Microscopic Picture + Key Biophysical Numbers -->
+          <div class="zoom-visual-grid">
+            <div class="zoom-picture-box">
+              <div class="picture-header">
+                <span class="picture-title">🔬 Arterial Cross-Section Microscopic Picture</span>
+                <span class="picture-status-tag" id="zoom-cap-tag">THIN-CAP FIBROATHEROMA (&lt;65 µm)</span>
+              </div>
+              
+              <!-- SVG Cross-Section Picture Container -->
+              <div class="cross-section-svg-wrapper" id="cross-section-svg-container">
+                <!-- Dynamically drawn by JavaScript -->
+              </div>
+
+              <div class="cross-section-legend">
+                <div class="cs-leg-item"><span class="cs-dot dot-lumen"></span><span>Blood Lumen (Flow Channel)</span></div>
+                <div class="cs-leg-item"><span class="cs-dot dot-lipid"></span><span>Soft Lipid Core (Cholesterol)</span></div>
+                <div class="cs-leg-item"><span class="cs-dot dot-cap"></span><span>Fibrous Cap</span></div>
+                <div class="cs-leg-item"><span class="cs-dot dot-wall"></span><span>Muscular Artery Wall</span></div>
+              </div>
+            </div>
+
+            <div class="zoom-stats-panel">
+              <h4 class="stats-heading">Hemodynamic &amp; Plaque Findings</h4>
+              <div class="zoom-metrics-grid">
+                <div class="zoom-metric-card">
+                  <span class="zm-label">Blockage (Stenosis)</span>
+                  <span class="zm-value" id="zm-stenosis">38%</span>
+                  <span class="zm-sub" id="zm-stenosis-sub">Visually "Mild"</span>
+                </div>
+                <div class="zoom-metric-card">
+                  <span class="zm-label">Fibrous Cap</span>
+                  <span class="zm-value danger" id="zm-cap">42 µm</span>
+                  <span class="zm-sub danger">Fragile (&lt;65 µm)</span>
+                </div>
+                <div class="zoom-metric-card">
+                  <span class="zm-label">Carinal Shear Stress</span>
+                  <span class="zm-value warning" id="zm-shear">8.5 WSS</span>
+                  <span class="zm-sub">High Turbulence Fork</span>
+                </div>
+                <div class="zoom-metric-card">
+                  <span class="zm-label">Heart Mass at Risk</span>
+                  <span class="zm-value danger" id="zm-blast">68%</span>
+                  <span class="zm-sub">Downstream Infarction</span>
+                </div>
+              </div>
+
+              <div class="zoom-actions-panel">
+                <button class="btn-zoom-sim" id="btn-zoom-trigger-rupture">
+                  ⚡ Simulate Acute Rupture on This Vessel
+                </button>
+                <button class="btn-zoom-chat" id="btn-zoom-ask-ai">
+                  💬 Ask AI Doctor About This Vessel
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4-CARD PLAIN ENGLISH CLINICAL GUIDE -->
+          <div class="zoom-explainer-cards">
+            <div class="z-card">
+              <div class="z-card-header">
+                <span class="z-icon">🫀</span>
+                <h4>1. What is this part of the heart?</h4>
+              </div>
+              <p id="z-text-anatomy">Loading anatomical role...</p>
+            </div>
+
+            <div class="z-card">
+              <div class="z-card-header">
+                <span class="z-icon">🔍</span>
+                <h4>2. What did CardioGraph AI detect here?</h4>
+              </div>
+              <p id="z-text-findings">Loading AI detection findings...</p>
+            </div>
+
+            <div class="z-card danger-card">
+              <div class="z-card-header">
+                <span class="z-icon">⚠️</span>
+                <h4>3. What is the hidden danger? (The Rupture Paradox)</h4>
+              </div>
+              <p id="z-text-danger">Loading rupture paradox explanation...</p>
+            </div>
+
+            <div class="z-card benefit-card">
+              <div class="z-card-header">
+                <span class="z-icon">💡</span>
+                <h4>4. How does CardioGraph AI save your life here?</h4>
+              </div>
+              <p id="z-text-benefit">Loading clinical benefit...</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT GUIDE & EXPLAINER MODAL -->
+    <div class="modal-overlay" id="guide-modal" style="display:none;">
+      <div class="modal-card modal-large guide-modal-content">
+        <div class="modal-header">
+          <div class="guide-modal-title-group">
+            <span class="guide-modal-badge">Patient &amp; Doctor Complete Guide</span>
+            <h3>What is CardioGraph AI &amp; Why Does It Matter?</h3>
+          </div>
+          <button class="modal-close" id="guide-modal-close">&times;</button>
+        </div>
+        <div class="modal-body guide-modal-body">
+          <div class="guide-hero-box">
+            <h4>🌟 The Big Problem We Solve</h4>
+            <p>
+              Cardiovascular disease is the <strong>#1 killer on Earth</strong> (18 million lives per year). 
+              In typical hospital care, doctors order an angiogram and look for <strong>70% or 80% blockages</strong>. 
+              If your blockage is only 30% or 40%, you are usually told: <em>"You look fine, take a baby aspirin."</em>
+            </p>
+          </div>
+
+          <div class="guide-sections-grid">
+            <div class="g-section-card">
+              <div class="g-card-header">
+                <span class="g-icon">⚡</span>
+                <h4>The Deadly "Rupture Paradox"</h4>
+              </div>
+              <p>
+                <strong>Over 65% of sudden fatal heart attacks occur at plaques with LESS than 50% blockage.</strong> 
+                These are "soft, lipid-rich vulnerable plaques" with paper-thin caps (&lt;65 microns). When blood rushing through a turbulent arterial fork exerts shear stress, that thin cap tears open in seconds—triggering the massive "Widow Maker" heart attack.
+              </p>
+            </div>
+
+            <div class="g-section-card">
+              <div class="g-card-header">
+                <span class="g-icon">🧬</span>
+                <h4>The FalkorDB Graph Advantage</h4>
+              </div>
+              <p>
+                Your heart's coronary arteries are physically a <strong>directed fluid network</strong>. 
+                Regular SQL databases cannot compute recursive downstream blood starvation. 
+                <strong>FalkorDB</strong> uses sparse matrix linear algebra (GraphBLAS) to calculate the exact <strong>downstream ischemic blast radius</strong> (which heart walls die) in under 2 milliseconds.
+              </p>
+            </div>
+
+            <div class="g-section-card">
+              <div class="g-card-header">
+                <span class="g-icon">🎯</span>
+                <h4>How to Use This Dashboard in 3 Steps</h4>
+              </div>
+              <ol class="guide-steps-list">
+                <li><strong>Pick Marcus Vance (`PAT-102`)</strong> on the left sidebar: He has only 38% stenosis, but a deadly 42 µm thin cap and high ApoB.</li>
+                <li><strong>Click Any Vessel or Plaque</strong> on the heart map: It zooms in and displays an arterial cross-section picture and plain-English risk breakdown.</li>
+                <li><strong>Click "Simulate Rupture"</strong>: Watch downstream vessels darken as blood flow cuts off, and the 20-minute CODE STEMI countdown begins.</li>
+              </ol>
+            </div>
+
+            <div class="g-section-card">
+              <div class="g-card-header">
+                <span class="g-icon">💚</span>
+                <h4>Benefit to Patients &amp; Doctors</h4>
+              </div>
+              <p>
+                <strong>For Patients:</strong> Catches ticking time bombs years before a heart attack, turning anxiety into clear medication and nutrition plans.
+                <br/><br/>
+                <strong>For Cardiologists:</strong> Instant FalkorDB flow reachability, AHA 17-zone territory maps, carinal shear stress indices, and LangGraph clinical reasoning.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
   </main>
 

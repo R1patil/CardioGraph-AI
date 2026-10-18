@@ -27,6 +27,144 @@ let activeTreeFilter = 'all';        // 'all', 'LCA', 'LCX', 'RCA'
 let selectedSegmentId = null;
 
 // ============================================================================
+// SVG VIEWBOX ZOOM & PAN ENGINE STATE
+// ============================================================================
+
+const BASE_VIEWBOX = { x: 0, y: 0, w: 960, h: 540 };
+let currentViewBox = { ...BASE_VIEWBOX };
+let targetViewBox = { ...BASE_VIEWBOX };
+let zoomAnimId = null;
+let isPanning = false;
+let panStart = { x: 0, y: 0 };
+let panViewBoxStart = { ...BASE_VIEWBOX };
+
+// ============================================================================
+// CLINICAL ANATOMICAL KNOWLEDGE MAP (PLAIN-ENGLISH FOR PATIENTS & DOCTORS)
+// ============================================================================
+
+const ANATOMY_KNOWLEDGE = {
+  'SEG_LM': {
+    title: 'Left Main Trunk (LM)',
+    system: 'Left Coronary System',
+    role: 'The master trunk arising directly from the aorta. Feeds over 70% of the entire left ventricle pumping chamber.',
+    danger: 'Destabilization here is catastrophic: both the LAD and LCx branches downstream immediately lose perfusion, causing massive cardiogenic shock.',
+    benefit: 'CardioGraph AI continuously tracks carinal bifurcation turbulence at the LM fork to detect early shear destabilization before occlusion can happen.'
+  },
+  'SEG_LAD_PROX': {
+    title: 'Proximal Left Anterior Descending (LAD)',
+    system: 'Left Anterior System',
+    role: 'Known clinically as the "Widow Maker". Supplies the entire front wall, anterior septum, and apex of the heart.',
+    danger: 'Marcus Vance has a soft lipid plaque narrowing the vessel by only 38%. Standard angiograms overlook this as "mild". But its cap is paper-thin (42 µm)! Located near high bifurcation turbulence, this fragile cap can tear in seconds, causing sudden cardiac death.',
+    benefit: 'CardioGraph AI computes the ApoB-100 hazard index and Wall Shear Stress, identifying this 38% lesion as CRITICAL and prescribing intensive plaque stabilization (targeting ApoB <55 mg/dL) to prevent rupture.'
+  },
+  'SEG_D1': {
+    title: 'First Diagonal Branch (D1)',
+    system: 'Left Anterior System',
+    role: 'Branches off the LAD to supply the anterolateral wall of the left ventricle.',
+    danger: 'Occlusion causes regional anterolateral ischemia and impairs heart muscle contractility during exertion.',
+    benefit: 'GraphBLAS reachability maps the exact lateral myocardial mass fed by D1 (11% of LV).'
+  },
+  'SEG_LAD_MID': {
+    title: 'Mid Left Anterior Descending (LAD)',
+    system: 'Left Anterior System',
+    role: 'Runs down the anterior interventricular groove, supplying the deep muscular septum.',
+    danger: 'Stenosis here restricts flow to septal branches, leading to angina pectoris and heart failure on exertion.',
+    benefit: 'Revascularization / intensive statin therapy restores laminar blood flow and prevents distal ischemic necrosis.'
+  },
+  'SEG_D2': {
+    title: 'Second Diagonal Branch (D2)',
+    system: 'Left Anterior System',
+    role: 'Distal anterolateral branch supporting the mid-to-apical lateral wall of the left ventricle.',
+    danger: 'Localized ischemia leading to decreased systolic wall thickening.',
+    benefit: 'Evaluated automatically in the 17-segment AHA perfusion model.'
+  },
+  'SEG_S1': {
+    title: 'First Septal Perforator (S1)',
+    system: 'Left Anterior System',
+    role: 'Dives deep into the muscular ventricular septum, feeding the electrical conduction bundle of His.',
+    danger: 'Ischemia here triggers cardiac conduction blocks and bundle branch delays.',
+    benefit: 'Monitored as a critical flow edge in the FalkorDB vascular network.'
+  },
+  'SEG_LAD_DIST': {
+    title: 'Distal LAD (Apex)',
+    system: 'Left Anterior System',
+    role: 'Wraps around the apex (the bottom pumping tip of the heart) to supply apical myocardium.',
+    danger: 'Distal embolization or thrombosis causes apical ballooning and loss of apex ejection power.',
+    benefit: 'Early detection ensures complete distal perfusion preservation.'
+  },
+  'SEG_LCX_PROX': {
+    title: 'Proximal Circumflex (LCx)',
+    system: 'Circumflex System',
+    role: 'Courses along the left atrioventricular groove like a belt, supplying the left atrium and posterolateral LV wall.',
+    danger: 'Plaque rupture causes acute lateral myocardial infarction (ECG leads I, aVL, V5, V6) and acute mitral valve insufficiency.',
+    benefit: 'Coronary flow simulation checks bifurcation split resistance from the Left Main.'
+  },
+  'SEG_OM1': {
+    title: 'First Obtuse Marginal (OM1)',
+    system: 'Circumflex System',
+    role: 'Large lateral branch supplying the high lateral left ventricular wall.',
+    danger: 'High shear stress bifurcation point prone to soft plaque formation.',
+    benefit: 'Evaluates lateral wall perfusion weight (11% LV mass).'
+  },
+  'SEG_LCX_DIST': {
+    title: 'Distal Circumflex (LCx)',
+    system: 'Circumflex System',
+    role: 'Supplies the inferolateral wall and posterior ventricular base.',
+    danger: 'Gradual stenosis causes chronic refractory angina.',
+    benefit: 'Integrated with AHA segment 11 and 16 perfusion tracking.'
+  },
+  'SEG_OM2': {
+    title: 'Second Obtuse Marginal (OM2)',
+    system: 'Circumflex System',
+    role: 'Supplies the mid-to-apical lateral ventricular myocardium.',
+    danger: 'Lateral wall hypokinesis under physical stress.',
+    benefit: 'Mapped directly in the FalkorDB directed flow graph.'
+  },
+  'SEG_RCA_PROX': {
+    title: 'Proximal Right Coronary Artery (RCA)',
+    system: 'Right Coronary System',
+    role: 'Main arterial trunk for the right side and inferior (bottom) wall of the heart. Feeds the SA node (pacemaker).',
+    danger: 'Acute occlusion triggers an Inferior STEMI and severe electrical heart block (sinus arrest or AV block), often requiring an emergency pacemaker.',
+    benefit: 'Predicts threatened inferior wall mass and alerts cath lab teams to prepare temporary pacing.'
+  },
+  'SEG_RCA_MID': {
+    title: 'Mid Right Coronary Artery (RCA)',
+    system: 'Right Coronary System',
+    role: 'Courses down the right atrioventricular sulcus, sustaining the right ventricular free wall.',
+    danger: 'Right ventricular infarction with profound systemic hypotension.',
+    benefit: 'Monitored for calcified vs lipid plaque phenotype transitions.'
+  },
+  'SEG_AM': {
+    title: 'Acute Marginal Branch (AM)',
+    system: 'Right Coronary System',
+    role: 'Supplies the anterior right ventricular wall.',
+    danger: 'Right ventricular dysfunction and elevated venous pressures.',
+    benefit: 'Models Poiseuille flow splits along the right coronary bed.'
+  },
+  'SEG_RCA_DIST': {
+    title: 'Distal Right Coronary Artery (RCA)',
+    system: 'Right Coronary System',
+    role: 'Reaches the crux of the heart to branch into the Posterior Descending Artery (PDA).',
+    danger: 'Ischemia affecting the AV node and inferior ventricular base.',
+    benefit: 'Calculates collateral flow availability from the left system.'
+  },
+  'SEG_PDA': {
+    title: 'Posterior Descending Artery (PDA)',
+    system: 'Right Coronary System',
+    role: 'Feeds the inferior third of the interventricular septum and inferior wall.',
+    danger: 'Inferior septal infarction leading to ventricular septal rupture.',
+    benefit: 'Crucial for determining coronary dominance in treatment planning.'
+  },
+  'SEG_PLV': {
+    title: 'Posterior Left Ventricular (PLV)',
+    system: 'Right Coronary System',
+    role: 'Supplies the diaphragmatic surface of the left ventricle.',
+    danger: 'Posterior wall hypoperfusion and diaphragmatic chest pain.',
+    benefit: 'Traces complete multi-hop reachability in FalkorDB.'
+  }
+};
+
+// ============================================================================
 // ANATOMICAL CANONICAL SVG COORDINATES MAP (960 x 540 viewBox)
 // ============================================================================
 
@@ -234,6 +372,7 @@ const elUploadModal = $('#upload-modal');
 const elInspectorModal = $('#inspector-modal');
 
 // SVG Elements
+const elCoronarySvg = $('#coronary-tree-svg');
 const elSvgPaths = $('#svg-artery-paths');
 const elSvgBifurcations = $('#svg-bifurcations');
 const elSvgPlaques = $('#svg-plaques');
@@ -241,6 +380,12 @@ const elSvgStentOverlay = $('#svg-stent-overlay');
 const elSvgLabels = $('#svg-labels');
 const elVesselInspectorCard = $('#vessel-inspector-card');
 const elStemiHudBanner = $('#stemi-hud-banner');
+
+// Modals & Zoom Elements
+const elVesselZoomModal = $('#vessel-zoom-modal');
+const elGuideModal = $('#guide-modal');
+const elCrossSectionSvgContainer = $('#cross-section-svg-container');
+const elZoomLevelBadge = $('#zoom-level-badge');
 
 // ============================================================================
 // INITIALIZATION
@@ -337,6 +482,13 @@ async function selectPatient(pid) {
   selectedPatientId = pid;
   selectedSegmentId = null;
   resetSimulationState();
+  resetCanvasZoom();
+
+  // Ensure clean single-view mode (disable split-view by default to prevent headache)
+  isSplitView = false;
+  $('#main-content').classList.remove('split-active');
+  $('#btn-split-toggle').classList.remove('active');
+  switchTab('tab-vascular');
 
   // Highlight in sidebar
   $$('.patient-item').forEach(el => {
@@ -365,14 +517,8 @@ async function selectPatient(pid) {
   renderBiomarkers();
   loadCypherQueries(pid);
   resetChat();
-
-  // Initial consult in chat
-  if (currentMode === 'doctor') {
-    await sendChatMessage('Provide interventional hemodynamic review, SYNTAX score assessment, and TCFA vulnerability stratification.');
-  } else {
-    await sendChatMessage('Give me my complete heart health overview');
-  }
 }
+
 
 function renderPatientHeader() {
   const p = selectedPatientData;
@@ -511,10 +657,11 @@ function renderCoronaryTree() {
     group.appendChild(pathBg);
     group.appendChild(pathFlow);
 
-    // Click handler for segment inspection
+    // Click handler for segment inspection & smooth zoom
     group.addEventListener('click', (e) => {
       e.stopPropagation();
-      showVesselInspector(segId);
+      openVesselZoomModal(segId);
+      focusOnSegment(segId);
     });
 
     elSvgPaths.appendChild(group);
@@ -542,11 +689,12 @@ function renderCoronaryTree() {
     circle.setAttribute('r', '5.5');
     circle.setAttribute('class', 'bifurcation-marker-node');
     circle.setAttribute('data-bifId', bifId);
-    circle.setAttribute('title', `${bif.name} (Shear Index: ${bif.shear}, Angle: ${bif.angle}°)`);
+    circle.setAttribute('title', `${bif.name} (Shear Index: ${bif.shear}, Angle: ${bif.angle}°) - Click to Zoom & Inspect`);
 
     circle.addEventListener('click', (e) => {
       e.stopPropagation();
-      showBifurcationInspector(bifId);
+      openBifurcationZoomModal(bifId);
+      focusOnPoint(bif.x, bif.y, 280);
     });
 
     elSvgBifurcations.appendChild(circle);
@@ -587,23 +735,276 @@ function renderCoronaryTree() {
     badge.setAttribute('font-size', '9.5');
     badge.setAttribute('font-weight', '800');
     badge.setAttribute('fill', '#f43f5e');
-    badge.textContent = `${primaryPlaque.stenosis_pct}% ${isTcfa ? 'TCFA' : 'Plaque'}`;
+    badge.textContent = `${primaryPlaque.stenosis_pct}% ${isTcfa ? 'TCFA' : 'Plaque'} (Zoom)`;
     plqGroup.appendChild(badge);
 
-    // Click handler to trigger rupture
+    // Click handler to zoom in on plaque and open cross-section picture
     plqGroup.addEventListener('click', (e) => {
       e.stopPropagation();
-      simulatePlaqueRupture();
+      openVesselZoomModal(affectedSegmentId, true);
+      focusOnPlaque();
     });
 
     elSvgPlaques.appendChild(plqGroup);
   }
 }
 
-function showVesselInspector(segId) {
+
+// ============================================================================
+// SVG VIEWBOX ZOOM, PAN & FOCUS ENGINE
+// ============================================================================
+
+function updateViewBoxDisplay() {
+  if (!elCoronarySvg) return;
+  elCoronarySvg.setAttribute('viewBox', `${currentViewBox.x} ${currentViewBox.y} ${currentViewBox.w} ${currentViewBox.h}`);
+  if (elZoomLevelBadge) {
+    const pct = Math.round((BASE_VIEWBOX.w / currentViewBox.w) * 100);
+    elZoomLevelBadge.textContent = `${pct}%`;
+  }
+}
+
+function animateViewBoxTo(target, duration = 350) {
+  if (zoomAnimId) cancelAnimationFrame(zoomAnimId);
+  const startX = currentViewBox.x;
+  const startY = currentViewBox.y;
+  const startW = currentViewBox.w;
+  const startH = currentViewBox.h;
+  const startTime = performance.now();
+
+  function step(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(1, elapsed / duration);
+    const ease = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+
+    currentViewBox.x = startX + (target.x - startX) * ease;
+    currentViewBox.y = startY + (target.y - startY) * ease;
+    currentViewBox.w = startW + (target.w - startW) * ease;
+    currentViewBox.h = startH + (target.h - startH) * ease;
+
+    updateViewBoxDisplay();
+
+    if (progress < 1) {
+      zoomAnimId = requestAnimationFrame(step);
+    } else {
+      currentViewBox = { ...target };
+      updateViewBoxDisplay();
+      zoomAnimId = null;
+    }
+  }
+
+  zoomAnimId = requestAnimationFrame(step);
+}
+
+function zoomCanvas(factor, centerPoint = null) {
+  // Clamp width between 180 (5.3x zoom) and 960 (1x zoom)
+  const newW = Math.max(180, Math.min(BASE_VIEWBOX.w, currentViewBox.w * factor));
+  const newH = newW * (BASE_VIEWBOX.h / BASE_VIEWBOX.w);
+
+  const cx = centerPoint ? centerPoint.x : (currentViewBox.x + currentViewBox.w / 2);
+  const cy = centerPoint ? centerPoint.y : (currentViewBox.y + currentViewBox.h / 2);
+
+  const newX = Math.max(0, Math.min(BASE_VIEWBOX.w - newW, cx - newW / 2));
+  const newY = Math.max(0, Math.min(BASE_VIEWBOX.h - newH, cy - newH / 2));
+
+  animateViewBoxTo({ x: newX, y: newY, w: newW, h: newH });
+}
+
+function resetCanvasZoom() {
+  selectedSegmentId = null;
+  removeFocusRing();
+  animateViewBoxTo(BASE_VIEWBOX, 400);
+  renderCoronaryTree();
+}
+
+function removeFocusRing() {
+  const existing = document.getElementById('svg-focus-ring');
+  if (existing) existing.remove();
+}
+
+function addFocusRing(cx, cy, radius = 28) {
+  removeFocusRing();
+  if (!elSvgPaths) return;
+  const ring = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  ring.setAttribute('id', 'svg-focus-ring');
+  ring.setAttribute('class', 'focus-highlight-ring');
+  ring.setAttribute('cx', cx);
+  ring.setAttribute('cy', cy);
+  ring.setAttribute('r', radius);
+  elSvgPaths.appendChild(ring);
+}
+
+function focusOnPoint(cx, cy, targetW = 340) {
+  const targetH = targetW * (BASE_VIEWBOX.h / BASE_VIEWBOX.w);
+  const targetX = Math.max(0, Math.min(BASE_VIEWBOX.w - targetW, cx - targetW / 2));
+  const targetY = Math.max(0, Math.min(BASE_VIEWBOX.h - targetH, cy - targetH / 2));
+  addFocusRing(cx, cy);
+  animateViewBoxTo({ x: targetX, y: targetY, w: targetW, h: targetH });
+}
+
+function focusOnSegment(segId) {
   selectedSegmentId = segId;
-  const segMeta = ARTERY_PATHS[segId];
-  if (!segMeta) return;
+  const seg = ARTERY_PATHS[segId];
+  if (!seg) return;
+  const cx = (seg.start.x + seg.end.x) / 2;
+  const cy = (seg.start.y + seg.end.y) / 2;
+  focusOnPoint(cx, cy, 320);
+  renderCoronaryTree();
+}
+
+function focusOnPlaque() {
+  const p = selectedPatientData;
+  const plq = (p?.plaques || [])[0];
+  if (!plq || !ARTERY_PATHS[plq.artery_segment_id]) {
+    alert('No plaque found on this patient.');
+    return;
+  }
+  const seg = ARTERY_PATHS[plq.artery_segment_id];
+  const pt = seg.plaquePoint || { x: (seg.start.x + seg.end.x) / 2, y: (seg.start.y + seg.end.y) / 2 };
+  selectedSegmentId = plq.artery_segment_id;
+  focusOnPoint(pt.x, pt.y, 250);
+  renderCoronaryTree();
+}
+
+// ============================================================================
+// MICROSCOPIC ARTERIAL CROSS-SECTION PICTURE RENDERER
+// ============================================================================
+
+function renderArterialCrossSection(container, opts) {
+  if (!container) return;
+  const {
+    stenosis = 38,
+    capThickness = 42,
+    isTcfa = true,
+    isRuptured = false,
+    isStented = false,
+    vesselName = 'Proximal LAD'
+  } = opts;
+
+  const W = 320, H = 210;
+  const cx = 160, cy = 105;
+  const outerR = 80;
+  const innerR = 68;
+
+  // Lumen opening radius shrinks as stenosis increases
+  const lumenR = Math.max(18, Math.round(62 * (1 - (stenosis / 100) * 0.65)));
+  const lipidCoreOffset = Math.round(stenosis * 0.42);
+
+  const capColor = isTcfa ? '#f43f5e' : '#10b981';
+  const capStrokeWidth = isTcfa ? 3.5 : 7;
+
+  const svgHtml = `
+    <svg viewBox="0 0 ${W} ${H}" width="100%" height="100%" style="overflow:visible;">
+      <defs>
+        <radialGradient id="grad-cs-wall" cx="50%" cy="50%" r="50%">
+          <stop offset="60%" stop-color="#1e293b" />
+          <stop offset="90%" stop-color="#334155" />
+          <stop offset="100%" stop-color="#475569" />
+        </radialGradient>
+
+        <linearGradient id="grad-lipid-pool" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f59e0b" />
+          <stop offset="60%" stop-color="#d97706" />
+          <stop offset="100%" stop-color="#92400e" />
+        </linearGradient>
+
+        <radialGradient id="grad-lumen-blood" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
+          <stop offset="65%" stop-color="#0284c7" stop-opacity="0.75" />
+          <stop offset="100%" stop-color="#0369a1" stop-opacity="0.45" />
+        </radialGradient>
+
+        <radialGradient id="grad-thrombus" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#881337" />
+          <stop offset="50%" stop-color="#991b1b" />
+          <stop offset="100%" stop-color="#450a0a" />
+        </radialGradient>
+
+        <filter id="cs-glow-danger" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <!-- Outer Muscular Artery Wall (Adventitia & Media) -->
+      <circle cx="${cx}" cy="${cy}" r="${outerR}" fill="url(#grad-cs-wall)" stroke="#64748b" stroke-width="3" />
+      <circle cx="${cx}" cy="${cy}" r="${innerR}" fill="#0f172a" stroke="#475569" stroke-width="1.5" stroke-dasharray="4 3" />
+
+      <!-- Soft Lipid Plaque Core (Atheroma) -->
+      ${stenosis > 0 ? `
+        <ellipse cx="${cx - lipidCoreOffset / 2}" cy="${cy}" rx="${lipidCoreOffset + 22}" ry="${innerR - 6}"
+                 fill="url(#grad-lipid-pool)" opacity="0.95" />
+        <circle cx="${cx - lipidCoreOffset / 2 - 8}" cy="${cy - 12}" r="5" fill="#fef08a" opacity="0.6" />
+        <circle cx="${cx - lipidCoreOffset / 2 + 10}" cy="${cy + 15}" r="6" fill="#fef08a" opacity="0.6" />
+        <circle cx="${cx - lipidCoreOffset / 2 - 14}" cy="${cy + 8}" r="4" fill="#fef08a" opacity="0.7" />
+      ` : ''}
+
+      <!-- Blood Lumen Channel -->
+      <circle cx="${cx + (stenosis > 0 ? lipidCoreOffset * 0.45 : 0)}" cy="${cy}" r="${lumenR}"
+              fill="${isRuptured ? 'url(#grad-thrombus)' : 'url(#grad-lumen-blood)'}"
+              stroke="${isRuptured ? '#ef4444' : '#38bdf8'}" stroke-width="2" />
+
+      <!-- Fibrous Cap Barrier -->
+      ${stenosis > 0 && !isStented ? `
+        <path d="M ${cx + lipidCoreOffset * 0.45 - lumenR},${cy - lumenR * 0.8}
+                 C ${cx - lipidCoreOffset * 0.2},${cy} ${cx - lipidCoreOffset * 0.2},${cy} ${cx + lipidCoreOffset * 0.45 - lumenR},${cy + lumenR * 0.8}"
+              stroke="${capColor}" stroke-width="${capStrokeWidth}" fill="none"
+              filter="${isTcfa ? 'url(#cs-glow-danger)' : 'none'}" />
+      ` : ''}
+
+      <!-- Metallic Stent Struts (if Stented) -->
+      ${isStented ? `
+        <g stroke="#10b981" stroke-width="2.5" fill="none">
+          <circle cx="${cx}" cy="${cy}" r="${innerR - 2}" stroke-dasharray="8 8" />
+          <circle cx="${cx}" cy="${cy}" r="${innerR - 8}" stroke="#34d399" stroke-dasharray="6 6" />
+        </g>
+      ` : ''}
+
+      <!-- Central Text Status -->
+      ${isRuptured ? `
+        <text x="${cx}" y="${cy + 4}" text-anchor="middle" fill="#fecaca" font-size="10.5" font-weight="900">CLOT (0 FLOW)</text>
+      ` : `
+        <text x="${cx + (stenosis > 0 ? lipidCoreOffset * 0.45 : 0)}" y="${cy + 4}" text-anchor="middle" fill="#ffffff" font-size="10" font-weight="800">
+          ${isStented ? '100% TIMI-3' : `${(100 - stenosis)}% OPEN`}
+        </text>
+      `}
+
+      <!-- Anatomical Callout Labels -->
+      <line x1="${cx - outerR}" y1="${cy - 35}" x2="${cx - outerR - 12}" y2="${cy - 35}" stroke="#94a3b8" stroke-width="1" />
+      <text x="${cx - outerR - 16}" y="${cy - 32}" fill="#94a3b8" font-size="9" text-anchor="end" font-weight="600">Artery Wall</text>
+
+      ${stenosis > 0 ? `
+        <line x1="${cx - 15}" y1="${cy + 25}" x2="${cx - 25}" y2="${cy + 58}" stroke="#f59e0b" stroke-width="1.2" />
+        <text x="${cx - 28}" y="${cy + 66}" fill="#f59e0b" font-size="9" text-anchor="end" font-weight="700">Lipid Core (${stenosis}%)</text>
+
+        <line x1="${cx + lipidCoreOffset * 0.45 - lumenR}" y1="${cy}" x2="${cx + 10}" y2="${cy - 55}" stroke="${capColor}" stroke-width="1.2" />
+        <text x="${cx + 12}" y="${cy - 60}" fill="${capColor}" font-size="9" font-weight="800">${isTcfa ? `TCFA Cap (${capThickness}µm)` : `Thick Cap (${capThickness}µm)`}</text>
+      ` : ''}
+    </svg>
+  `;
+
+  container.innerHTML = svgHtml;
+}
+
+// ============================================================================
+// ANATOMICAL VESSEL ZOOM MODAL CONTROLLER
+// ============================================================================
+
+function openVesselZoomModal(segId, isPlaqueClick = false) {
+  selectedSegmentId = segId;
+  const segMeta = ARTERY_PATHS[segId] || { name: segId, vesselSystem: 'Coronary' };
+  const p = selectedPatientData || {};
+  const primaryPlaque = (p.plaques || [])[0] || {};
+  const isTargetPlaqueVessel = (primaryPlaque.artery_segment_id === segId) || isPlaqueClick;
+  const info = ANATOMY_KNOWLEDGE[segId] || {
+    title: segMeta.name,
+    system: segMeta.vesselSystem,
+    role: `Important coronary segment supplying myocardial tissue.`,
+    danger: `Plaque accumulation causes regional ischemic stress.`,
+    benefit: `CardioGraph AI tracks continuous flow and predicts downstream perfusion.`
+  };
 
   // Find canonical segment data
   const canonicalSeg = (topologyData?.artery_segments || []).find(s => s.id === segId) || {
@@ -614,51 +1015,120 @@ function showVesselInspector(segId) {
     perfuses_zones: []
   };
 
-  $('#insp-type').textContent = segMeta.vesselSystem;
-  $('#insp-title').textContent = segMeta.name;
-  $('#insp-caliber').textContent = `${canonicalSeg.diameter_mm} mm`;
-  $('#insp-length').textContent = `${canonicalSeg.length_mm} mm`;
-  $('#insp-flow').textContent = `${canonicalSeg.baseline_flow_ml_min} mL/min`;
-  $('#insp-res').textContent = `${canonicalSeg.resistance} R`;
+  // Populate header
+  $('#zoom-vessel-badge').textContent = `${segId} · ${segMeta.vesselSystem || 'LCA'}`;
+  $('#zoom-vessel-title').textContent = info.title;
+  $('#zoom-vessel-subtitle').textContent = info.role.split('.')[0] + '.';
 
-  // Status text
-  const primaryPlaque = (selectedPatientData?.plaques || [])[0];
-  const hasPlaque = primaryPlaque?.artery_segment_id === segId;
-  
-  if (simulationState === 'ruptured') {
-    const blast = primaryPlaque?.downstream_blast_radius || {};
-    const downstream = blast.downstream_segments || [];
-    if (segId === primaryPlaque?.artery_segment_id) {
-      $('#insp-status-row').innerHTML = `<span style="color:var(--accent-rose);font-weight:700;">🚨 100% COMPLETE THROMBOTIC OCCLUSION (TIMI-0)</span>`;
-    } else if (downstream.includes(segId)) {
-      $('#insp-status-row').innerHTML = `<span style="color:var(--accent-rose);">⚠️ Downstream Ischemic Stagnation (Zero Flow)</span>`;
-    } else {
-      $('#insp-status-row').innerHTML = `<span style="color:var(--accent-emerald);">✅ Normal Antegrade Perfusion (TIMI-3)</span>`;
-    }
-  } else if (hasPlaque) {
-    $('#insp-status-row').innerHTML = `<span style="color:var(--accent-amber);font-weight:700;">⚠️ Contains ${primaryPlaque.stenosis_pct}% ${primaryPlaque.plaque_type} lesion (Cap: ${primaryPlaque.cap_thickness_um}µm)</span>`;
+  // Plaque metrics
+  const sten = isTargetPlaqueVessel ? (primaryPlaque.stenosis_pct || 38) : 0;
+  const cap = isTargetPlaqueVessel ? (primaryPlaque.cap_thickness_um || 42) : 180;
+  const isTcfa = (cap < 65);
+  const shear = isTargetPlaqueVessel ? 8.5 : 4.2;
+  const blastPct = isTargetPlaqueVessel ? (primaryPlaque.downstream_blast_radius?.total_myocardium_mass_at_risk_pct || 68) : 0;
+
+  // Cap badge
+  const elCapTag = $('#zoom-cap-tag');
+  if (isTargetPlaqueVessel && isTcfa) {
+    elCapTag.textContent = '⚠️ THIN-CAP FIBROATHEROMA (<65 µm)';
+    elCapTag.className = 'picture-status-tag danger';
+  } else if (isTargetPlaqueVessel) {
+    elCapTag.textContent = 'STABLE FIBROCALCIFIC PLAQUE';
+    elCapTag.className = 'picture-status-tag';
   } else {
-    $('#insp-status-row').innerHTML = `<span style="color:var(--accent-cyan);">Healthy vessel segment · Poiseuille flow normal</span>`;
+    elCapTag.textContent = 'HEALTHY OPEN ARTERY';
+    elCapTag.className = 'picture-status-tag';
   }
 
-  elVesselInspectorCard.style.display = 'block';
-  renderCoronaryTree();
+  // Update stat cards
+  $('#zm-stenosis').textContent = `${sten}%`;
+  $('#zm-stenosis-sub').textContent = sten >= 70 ? 'Obstructive' : sten >= 50 ? 'Moderate' : (sten > 0 ? 'Visually "Mild"' : 'Clear Lumen');
+
+  $('#zm-cap').textContent = isTargetPlaqueVessel ? `${cap} µm` : 'Normal';
+  $('#zm-cap').className = isTcfa ? 'zm-value danger' : 'zm-value';
+
+  $('#zm-shear').textContent = `${shear} WSS`;
+  $('#zm-blast').textContent = `${blastPct}%`;
+
+  // Draw Microscopic Cross-Section Picture
+  renderArterialCrossSection(elCrossSectionSvgContainer, {
+    stenosis: sten,
+    capThickness: cap,
+    isTcfa: isTcfa,
+    isRuptured: (simulationState === 'ruptured' && isTargetPlaqueVessel),
+    isStented: (simulationState === 'stented' && isTargetPlaqueVessel),
+    vesselName: segMeta.name
+  });
+
+  // Populate 4 Plain-English Clinical Cards
+  $('#z-text-anatomy').textContent = info.role;
+
+  $('#z-text-findings').textContent = isTargetPlaqueVessel
+    ? `CardioGraph AI detected a ${sten}% soft lipid plaque with an ultra-thin ${cap} µm fibrous cap. ApoB is ${p.biomarkers?.apob_mg_dl || 148} mg/dL, causing biochemical cap degradation.`
+    : `This segment has a healthy caliber of ${canonicalSeg.diameter_mm} mm with normal baseline flow of ${canonicalSeg.baseline_flow_ml_min} mL/min and no active plaque lesions.`;
+
+  $('#z-text-danger').textContent = isTargetPlaqueVessel
+    ? (isTcfa 
+      ? `THE RUPTURE PARADOX: Despite only ${sten}% blockage, the thin ${cap} µm cap cannot withstand carinal blood turbulence (${shear} WSS). If it ruptures, ${blastPct}% of your heart muscle will die in 20 minutes!` 
+      : info.danger)
+    : `Currently low risk. Maintaining low ApoB-100 prevents foam-cell accumulation in this segment.`;
+
+  $('#z-text-benefit').textContent = isTargetPlaqueVessel
+    ? `CardioGraph AI sounds the alarm before rupture happens! Prescribing intensive ApoB reduction (<55 mg/dL with PCSK9i + statins) thickens the fibrous cap, turning a lethal soft plaque into a safe, calcified lesion.`
+    : info.benefit;
+
+  elVesselZoomModal.style.display = 'flex';
 }
 
-function showBifurcationInspector(bifId) {
+function openBifurcationZoomModal(bifId) {
   const bif = BIFURCATION_POINTS[bifId];
   if (!bif) return;
 
-  $('#insp-type').textContent = 'BIFURCATION';
-  $('#insp-title').textContent = bif.name;
-  $('#insp-caliber').textContent = `${bif.angle}° Angle`;
-  $('#insp-length').textContent = `Shear: ${bif.shear}`;
-  $('#insp-flow').textContent = `Turbulence High`;
-  $('#insp-res').textContent = `Carina`;
+  $('#zoom-vessel-badge').textContent = `BIFURCATION · CARINA`;
+  $('#zoom-vessel-title').textContent = bif.name;
+  $('#zoom-vessel-subtitle').textContent = `Arterial bifurcation fork with high hemodynamic shear stress.`;
 
-  $('#insp-status-row').innerHTML = `<span style="color:var(--accent-amber);">High Hemodynamic Wall Shear Stress (WSS) chokepoint</span>`;
-  elVesselInspectorCard.style.display = 'block';
+  $('#zoom-cap-tag').textContent = 'HIGH TURBULENCE JUNCTION';
+  $('#zoom-cap-tag').className = 'picture-status-tag';
+
+  $('#zm-stenosis').textContent = `${bif.angle}°`;
+  $('#zm-stenosis-sub').textContent = 'Branch Angle';
+
+  $('#zm-cap').textContent = `WSS ${bif.shear}`;
+  $('#zm-cap').className = 'zm-value warning';
+
+  $('#zm-shear').textContent = `High`;
+  $('#zm-blast').textContent = `Critical`;
+
+  renderArterialCrossSection(elCrossSectionSvgContainer, {
+    stenosis: 25,
+    capThickness: 50,
+    isTcfa: true,
+    isRuptured: false,
+    isStented: false,
+    vesselName: bif.name
+  });
+
+  $('#z-text-anatomy').textContent = `Arterial branching carina where blood flow divides into two downstream channels. Forces fluid turbulence against the vessel wall.`;
+  $('#z-text-findings').textContent = `Wall Shear Stress (WSS) index of ${bif.shear} with bifurcation angle of ${bif.angle}°. Oscillating shear stress promotes endothelial erosion.`;
+  $('#z-text-danger').textContent = `Plaques located within 5 mm of this bifurcation experience 3x higher mechanical fatigue, making them prone to sudden tear and rupture.`;
+  $('#z-text-benefit').textContent = `CardioGraph AI incorporates bifurcation fluid dynamics directly into the Plaque Vulnerability Index (PVI).`;
+
+  elVesselZoomModal.style.display = 'flex';
 }
+
+function closeVesselZoomModal() {
+  elVesselZoomModal.style.display = 'none';
+}
+
+function openGuideModal() {
+  elGuideModal.style.display = 'flex';
+}
+
+function closeGuideModal() {
+  elGuideModal.style.display = 'none';
+}
+
 
 // ============================================================================
 // ACUTE PLAQUE RUPTURE SIMULATION (CODE STEMI)
@@ -1368,7 +1838,91 @@ function setupEventListeners() {
   });
 
   $('#upload-form').addEventListener('submit', handleUploadSubmit);
+
+  // Guide modal listeners
+  $('#btn-open-guide-modal')?.addEventListener('click', openGuideModal);
+  $('#guide-modal-close')?.addEventListener('click', closeGuideModal);
+  elGuideModal?.addEventListener('click', (e) => {
+    if (e.target === elGuideModal) closeGuideModal();
+  });
+
+  // Vessel zoom modal listeners
+  $('#zoom-modal-close')?.addEventListener('click', closeVesselZoomModal);
+  elVesselZoomModal?.addEventListener('click', (e) => {
+    if (e.target === elVesselZoomModal) closeVesselZoomModal();
+  });
+
+  $('#btn-zoom-closer')?.addEventListener('click', () => {
+    zoomCanvas(0.55);
+  });
+
+  $('#btn-zoom-reset-from-modal')?.addEventListener('click', () => {
+    resetCanvasZoom();
+    closeVesselZoomModal();
+  });
+
+  $('#btn-zoom-trigger-rupture')?.addEventListener('click', () => {
+    closeVesselZoomModal();
+    simulatePlaqueRupture();
+  });
+
+  $('#btn-zoom-ask-ai')?.addEventListener('click', () => {
+    closeVesselZoomModal();
+    switchTab('tab-chat');
+    const segName = selectedSegmentId ? (ARTERY_PATHS[selectedSegmentId]?.name || selectedSegmentId) : 'coronary artery';
+    sendChatMessage(`What is the clinical rupture danger and treatment plan for my ${segName}?`);
+  });
+
+  // Canvas Zoom Buttons
+  $('#btn-zoom-in')?.addEventListener('click', () => zoomCanvas(0.7));
+  $('#btn-zoom-out')?.addEventListener('click', () => zoomCanvas(1.4));
+  $('#btn-zoom-reset')?.addEventListener('click', () => resetCanvasZoom());
+  $('#btn-zoom-focus')?.addEventListener('click', () => focusOnPlaque());
+
+  // Canvas Mouse Wheel Zoom & Drag Pan
+  if (elCoronarySvg) {
+    elCoronarySvg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const rect = elCoronarySvg.getBoundingClientRect();
+      const mouseSvgX = currentViewBox.x + ((e.clientX - rect.left) / rect.width) * currentViewBox.w;
+      const mouseSvgY = currentViewBox.y + ((e.clientY - rect.top) / rect.height) * currentViewBox.h;
+      const factor = e.deltaY < 0 ? 0.75 : 1.3;
+      zoomCanvas(factor, { x: mouseSvgX, y: mouseSvgY });
+    }, { passive: false });
+
+    elCoronarySvg.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      isPanning = true;
+      panStart = { x: e.clientX, y: e.clientY };
+      panViewBoxStart = { ...currentViewBox };
+      elCoronarySvg.style.cursor = 'grabbing';
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isPanning || !elCoronarySvg) return;
+      const dx = (e.clientX - panStart.x);
+      const dy = (e.clientY - panStart.y);
+      const rect = elCoronarySvg.getBoundingClientRect();
+      const scaleX = currentViewBox.w / rect.width;
+      const scaleY = currentViewBox.h / rect.height;
+
+      const newX = Math.max(0, Math.min(BASE_VIEWBOX.w - currentViewBox.w, panViewBoxStart.x - dx * scaleX));
+      const newY = Math.max(0, Math.min(BASE_VIEWBOX.h - currentViewBox.h, panViewBoxStart.y - dy * scaleY));
+
+      currentViewBox.x = newX;
+      currentViewBox.y = newY;
+      updateViewBoxDisplay();
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isPanning) {
+        isPanning = false;
+        if (elCoronarySvg) elCoronarySvg.style.cursor = 'default';
+      }
+    });
+  }
 }
+
 
 // ============================================================================
 // UTILITIES
