@@ -1,0 +1,3295 @@
+{
+  "metadata": {
+    "project": "CardioGraph AI",
+    "version": "1.0.0",
+    "target": "WeMakeDevs Graph Hacks: Context for AI Agents (FalkorDB)",
+    "scientific_context": "DeepMind ApoB100 + Bifurcation Wall Shear Stress + Rupture Paradox",
+    "cohort_size": 25,
+    "canonical_segments_count": 17,
+    "canonical_bifurcations_count": 5,
+    "canonical_myocardium_zones_count": 9
+  },
+  "canonical_topology": {
+    "artery_segments": [
+      {
+        "id": "SEG_LM",
+        "name": "Left Main Coronary Artery (LM)",
+        "vessel_system": "LCA",
+        "diameter_mm": 4.5,
+        "length_mm": 12.0,
+        "baseline_flow_ml_min": 180.0,
+        "resistance": 0.08,
+        "flows_into": [
+          "SEG_LAD_PROX",
+          "SEG_LCX_PROX"
+        ],
+        "perfuses_zones": []
+      },
+      {
+        "id": "SEG_LAD_PROX",
+        "name": "Proximal LAD (Left Anterior Descending)",
+        "vessel_system": "LCA",
+        "diameter_mm": 3.8,
+        "length_mm": 22.0,
+        "baseline_flow_ml_min": 110.0,
+        "resistance": 0.14,
+        "flows_into": [
+          "SEG_LAD_MID",
+          "SEG_D1"
+        ],
+        "perfuses_zones": [
+          "ZONE_ANT_BASAL"
+        ]
+      },
+      {
+        "id": "SEG_LAD_MID",
+        "name": "Mid LAD",
+        "vessel_system": "LCA",
+        "diameter_mm": 3.2,
+        "length_mm": 26.0,
+        "baseline_flow_ml_min": 75.0,
+        "resistance": 0.22,
+        "flows_into": [
+          "SEG_LAD_DIST",
+          "SEG_D2",
+          "SEG_S1"
+        ],
+        "perfuses_zones": [
+          "ZONE_ANT_MID"
+        ]
+      },
+      {
+        "id": "SEG_LAD_DIST",
+        "name": "Distal LAD",
+        "vessel_system": "LCA",
+        "diameter_mm": 2.2,
+        "length_mm": 30.0,
+        "baseline_flow_ml_min": 35.0,
+        "resistance": 0.45,
+        "flows_into": [],
+        "perfuses_zones": [
+          "ZONE_APICAL"
+        ]
+      },
+      {
+        "id": "SEG_D1",
+        "name": "First Diagonal Branch (D1)",
+        "vessel_system": "LCA",
+        "diameter_mm": 2.5,
+        "length_mm": 24.0,
+        "baseline_flow_ml_min": 30.0,
+        "resistance": 0.38,
+        "flows_into": [],
+        "perfuses_zones": [
+          "ZONE_ANT_BASAL",
+          "ZONE_LAT_BASAL"
+        ]
+      },
+      {
+        "id": "SEG_D2",
+        "name": "Second Diagonal Branch (D2)",
+        "vessel_system": "LCA",
+        "diameter_mm": 2.1,
+        "length_mm": 22.0,
+        "baseline_flow_ml_min": 20.0,
+        "resistance": 0.52,
+        "flows_into": [],
+        "perfuses_zones": [
+          "ZONE_ANT_MID"
+        ]
+      },
+      {
+        "id": "SEG_S1",
+        "name": "First Septal Perforator (S1)",
+        "vessel_system": "LCA",
+        "diameter_mm": 1.9,
+        "length_mm": 18.0,
+        "baseline_flow_ml_min": 25.0,
+        "resistance": 0.48,
+        "flows_into": [],
+        "perfuses_zones": [
+          "ZONE_SEPT_BASAL",
+          "ZONE_SEPT_MID"
+        ]
+      },
+      {
+        "id": "SEG_LCX_PROX",
+        "name": "Proximal LCx (Left Circumflex)",
+        "vessel_system": "LCA",
+        "diameter_mm": 3.5,
+        "length_mm": 20.0,
+        "baseline_flow_ml_min": 70.0,
+        "resistance": 0.18,
+        "flows_into": [
+          "SEG_LCX_DIST",
+          "SEG_OM1"
+        ],
+        "perfuses_zones": [
+          "ZONE_LAT_BASAL"
+        ]
+      },
+      {
+        "id": "SEG_LCX_DIST",
+        "name": "Distal LCx",
+        "vessel_system": "LCA",
+        "diameter_mm": 2.6,
+        "length_mm": 25.0,
+        "baseline_flow_ml_min": 35.0,
+        "resistance": 0.36,
+        "flows_into": [
+          "SEG_OM2"
+        ],
+        "perfuses_zones": [
+          "ZONE_LAT_MID"
+        ]
+      },
+      {
+        "id": "SEG_OM1",
+        "name": "First Obtuse Marginal (OM1)",
+        "vessel_system": "LCA",
+        "diameter_mm": 2.4,
+        "length_mm": 28.0,
+        "baseline_flow_ml_min": 28.0,
+        "resistance": 0.4,
+        "flows_into": [],
+        "perfuses_zones": [
+          "ZONE_LAT_BASAL",
+          "ZONE_LAT_MID"
+        ]
+      },
+      {
+        "id": "SEG_OM2",
+        "name": "Second Obtuse Marginal (OM2)",
+        "vessel_system": "LCA",
+        "diameter_mm": 2.0,
+        "length_mm": 22.0,
+        "baseline_flow_ml_min": 18.0,
+        "resistance": 0.55,
+        "flows_into": [],
+        "perfuses_zones": [
+          "ZONE_LAT_MID"
+        ]
+      },
+      {
+        "id": "SEG_RCA_PROX",
+        "name": "Proximal RCA",
+        "vessel_system": "RCA",
+        "diameter_mm": 4.0,
+        "length_mm": 28.0,
+        "baseline_flow_ml_min": 95.0,
+        "resistance": 0.15,
+        "flows_into": [
+          "SEG_RCA_MID"
+        ],
+        "perfuses_zones": []
+      },
+      {
+        "id": "SEG_RCA_MID",
+        "name": "Mid RCA",
+        "vessel_system": "RCA",
+        "diameter_mm": 3.4,
+        "length_mm": 32.0,
+        "baseline_flow_ml_min": 80.0,
+        "resistance": 0.24,
+        "flows_into": [
+          "SEG_RCA_DIST",
+          "SEG_AM"
+        ],
+        "perfuses_zones": [
+          "ZONE_INF_BASAL"
+        ]
+      },
+      {
+        "id": "SEG_AM",
+        "name": "Acute Marginal Branch (AM)",
+        "vessel_system": "RCA",
+        "diameter_mm": 2.0,
+        "length_mm": 20.0,
+        "baseline_flow_ml_min": 18.0,
+        "resistance": 0.58,
+        "flows_into": [],
+        "perfuses_zones": [
+          "ZONE_INF_BASAL"
+        ]
+      },
+      {
+        "id": "SEG_RCA_DIST",
+        "name": "Distal RCA",
+        "vessel_system": "RCA",
+        "diameter_mm": 2.9,
+        "length_mm": 24.0,
+        "baseline_flow_ml_min": 60.0,
+        "resistance": 0.32,
+        "flows_into": [
+          "SEG_PDA",
+          "SEG_PLV"
+        ],
+        "perfuses_zones": [
+          "ZONE_INF_MID"
+        ]
+      },
+      {
+        "id": "SEG_PDA",
+        "name": "Posterior Descending Artery (PDA)",
+        "vessel_system": "RCA",
+        "diameter_mm": 2.4,
+        "length_mm": 26.0,
+        "baseline_flow_ml_min": 35.0,
+        "resistance": 0.42,
+        "flows_into": [],
+        "perfuses_zones": [
+          "ZONE_INF_MID",
+          "ZONE_SEPT_MID"
+        ]
+      },
+      {
+        "id": "SEG_PLV",
+        "name": "Posterolateral Ventricular Branch (PLV)",
+        "vessel_system": "RCA",
+        "diameter_mm": 2.1,
+        "length_mm": 22.0,
+        "baseline_flow_ml_min": 22.0,
+        "resistance": 0.5,
+        "flows_into": [],
+        "perfuses_zones": [
+          "ZONE_INF_BASAL"
+        ]
+      }
+    ],
+    "bifurcations": [
+      {
+        "id": "BIF_LM_LAD_LCX",
+        "name": "Left Main Carina (LM -> LAD + LCx)",
+        "parent_vessel": "SEG_LM",
+        "daughter_vessels": [
+          "SEG_LAD_PROX",
+          "SEG_LCX_PROX"
+        ],
+        "bifurcation_angle_deg": 82.0,
+        "shear_stress_index": 8.4,
+        "turbulence_factor": 0.85,
+        "flow_ratio": 1.57
+      },
+      {
+        "id": "BIF_LAD_D1",
+        "name": "LAD-First Diagonal Junction",
+        "parent_vessel": "SEG_LAD_PROX",
+        "daughter_vessels": [
+          "SEG_LAD_MID",
+          "SEG_D1"
+        ],
+        "bifurcation_angle_deg": 68.0,
+        "shear_stress_index": 7.8,
+        "turbulence_factor": 0.76,
+        "flow_ratio": 2.5
+      },
+      {
+        "id": "BIF_LAD_D2_S1",
+        "name": "Mid-LAD Bifurcation (LAD-Distal + D2 + S1)",
+        "parent_vessel": "SEG_LAD_MID",
+        "daughter_vessels": [
+          "SEG_LAD_DIST",
+          "SEG_D2",
+          "SEG_S1"
+        ],
+        "bifurcation_angle_deg": 62.0,
+        "shear_stress_index": 6.9,
+        "turbulence_factor": 0.68,
+        "flow_ratio": 1.8
+      },
+      {
+        "id": "BIF_LCX_OM1",
+        "name": "LCx-OM1 Junction",
+        "parent_vessel": "SEG_LCX_PROX",
+        "daughter_vessels": [
+          "SEG_LCX_DIST",
+          "SEG_OM1"
+        ],
+        "bifurcation_angle_deg": 58.0,
+        "shear_stress_index": 6.2,
+        "turbulence_factor": 0.6,
+        "flow_ratio": 1.25
+      },
+      {
+        "id": "BIF_RCA_PDA_PLV",
+        "name": "RCA Crux Bifurcation (PDA + PLV)",
+        "parent_vessel": "SEG_RCA_DIST",
+        "daughter_vessels": [
+          "SEG_PDA",
+          "SEG_PLV"
+        ],
+        "bifurcation_angle_deg": 74.0,
+        "shear_stress_index": 7.2,
+        "turbulence_factor": 0.72,
+        "flow_ratio": 1.6
+      }
+    ],
+    "myocardium_zones": [
+      {
+        "id": "ZONE_ANT_BASAL",
+        "zone_name": "Basal Anterior",
+        "wall": "Anterior",
+        "mass_pct": 10.0,
+        "aha_segment_ids": [
+          1
+        ]
+      },
+      {
+        "id": "ZONE_ANT_MID",
+        "zone_name": "Mid Anterior",
+        "wall": "Anterior",
+        "mass_pct": 12.0,
+        "aha_segment_ids": [
+          7
+        ]
+      },
+      {
+        "id": "ZONE_SEPT_BASAL",
+        "zone_name": "Basal Septal",
+        "wall": "Septal",
+        "mass_pct": 10.0,
+        "aha_segment_ids": [
+          2,
+          3
+        ]
+      },
+      {
+        "id": "ZONE_SEPT_MID",
+        "zone_name": "Mid Septal",
+        "wall": "Septal",
+        "mass_pct": 11.0,
+        "aha_segment_ids": [
+          8,
+          9
+        ]
+      },
+      {
+        "id": "ZONE_APICAL",
+        "zone_name": "Apical Territory & True Apex",
+        "wall": "Apical",
+        "mass_pct": 14.0,
+        "aha_segment_ids": [
+          13,
+          14,
+          15,
+          16,
+          17
+        ]
+      },
+      {
+        "id": "ZONE_LAT_BASAL",
+        "zone_name": "Basal Lateral",
+        "wall": "Lateral",
+        "mass_pct": 11.0,
+        "aha_segment_ids": [
+          5,
+          6
+        ]
+      },
+      {
+        "id": "ZONE_LAT_MID",
+        "zone_name": "Mid Lateral",
+        "wall": "Lateral",
+        "mass_pct": 12.0,
+        "aha_segment_ids": [
+          11,
+          12
+        ]
+      },
+      {
+        "id": "ZONE_INF_BASAL",
+        "zone_name": "Basal Inferior",
+        "wall": "Inferior",
+        "mass_pct": 10.0,
+        "aha_segment_ids": [
+          4
+        ]
+      },
+      {
+        "id": "ZONE_INF_MID",
+        "zone_name": "Mid Inferior",
+        "wall": "Inferior",
+        "mass_pct": 10.0,
+        "aha_segment_ids": [
+          10
+        ]
+      }
+    ],
+    "flow_edges": [
+      {
+        "source_segment_id": "SEG_LM",
+        "target_segment_id": "SEG_LAD_PROX",
+        "resistance": 0.14,
+        "flow_split_pct": 61.0
+      },
+      {
+        "source_segment_id": "SEG_LM",
+        "target_segment_id": "SEG_LCX_PROX",
+        "resistance": 0.18,
+        "flow_split_pct": 39.0
+      },
+      {
+        "source_segment_id": "SEG_LAD_PROX",
+        "target_segment_id": "SEG_LAD_MID",
+        "resistance": 0.22,
+        "flow_split_pct": 72.0
+      },
+      {
+        "source_segment_id": "SEG_LAD_PROX",
+        "target_segment_id": "SEG_D1",
+        "resistance": 0.38,
+        "flow_split_pct": 28.0
+      },
+      {
+        "source_segment_id": "SEG_LAD_MID",
+        "target_segment_id": "SEG_LAD_DIST",
+        "resistance": 0.45,
+        "flow_split_pct": 47.0
+      },
+      {
+        "source_segment_id": "SEG_LAD_MID",
+        "target_segment_id": "SEG_D2",
+        "resistance": 0.52,
+        "flow_split_pct": 27.0
+      },
+      {
+        "source_segment_id": "SEG_LAD_MID",
+        "target_segment_id": "SEG_S1",
+        "resistance": 0.48,
+        "flow_split_pct": 26.0
+      },
+      {
+        "source_segment_id": "SEG_LCX_PROX",
+        "target_segment_id": "SEG_LCX_DIST",
+        "resistance": 0.36,
+        "flow_split_pct": 55.0
+      },
+      {
+        "source_segment_id": "SEG_LCX_PROX",
+        "target_segment_id": "SEG_OM1",
+        "resistance": 0.4,
+        "flow_split_pct": 45.0
+      },
+      {
+        "source_segment_id": "SEG_LCX_DIST",
+        "target_segment_id": "SEG_OM2",
+        "resistance": 0.55,
+        "flow_split_pct": 100.0
+      },
+      {
+        "source_segment_id": "SEG_RCA_PROX",
+        "target_segment_id": "SEG_RCA_MID",
+        "resistance": 0.24,
+        "flow_split_pct": 100.0
+      },
+      {
+        "source_segment_id": "SEG_RCA_MID",
+        "target_segment_id": "SEG_RCA_DIST",
+        "resistance": 0.32,
+        "flow_split_pct": 78.0
+      },
+      {
+        "source_segment_id": "SEG_RCA_MID",
+        "target_segment_id": "SEG_AM",
+        "resistance": 0.58,
+        "flow_split_pct": 22.0
+      },
+      {
+        "source_segment_id": "SEG_RCA_DIST",
+        "target_segment_id": "SEG_PDA",
+        "resistance": 0.42,
+        "flow_split_pct": 60.0
+      },
+      {
+        "source_segment_id": "SEG_RCA_DIST",
+        "target_segment_id": "SEG_PLV",
+        "resistance": 0.5,
+        "flow_split_pct": 40.0
+      }
+    ],
+    "perfusion_edges": [
+      {
+        "artery_segment_id": "SEG_LAD_PROX",
+        "zone_id": "ZONE_ANT_BASAL",
+        "perfusion_weight": 0.65
+      },
+      {
+        "artery_segment_id": "SEG_D1",
+        "zone_id": "ZONE_ANT_BASAL",
+        "perfusion_weight": 0.35
+      },
+      {
+        "artery_segment_id": "SEG_D1",
+        "zone_id": "ZONE_LAT_BASAL",
+        "perfusion_weight": 0.25
+      },
+      {
+        "artery_segment_id": "SEG_LAD_MID",
+        "zone_id": "ZONE_ANT_MID",
+        "perfusion_weight": 0.7
+      },
+      {
+        "artery_segment_id": "SEG_D2",
+        "zone_id": "ZONE_ANT_MID",
+        "perfusion_weight": 0.3
+      },
+      {
+        "artery_segment_id": "SEG_S1",
+        "zone_id": "ZONE_SEPT_BASAL",
+        "perfusion_weight": 0.75
+      },
+      {
+        "artery_segment_id": "SEG_S1",
+        "zone_id": "ZONE_SEPT_MID",
+        "perfusion_weight": 0.5
+      },
+      {
+        "artery_segment_id": "SEG_LAD_DIST",
+        "zone_id": "ZONE_APICAL",
+        "perfusion_weight": 0.85
+      },
+      {
+        "artery_segment_id": "SEG_LCX_PROX",
+        "zone_id": "ZONE_LAT_BASAL",
+        "perfusion_weight": 0.75
+      },
+      {
+        "artery_segment_id": "SEG_OM1",
+        "zone_id": "ZONE_LAT_BASAL",
+        "perfusion_weight": 0.4
+      },
+      {
+        "artery_segment_id": "SEG_OM1",
+        "zone_id": "ZONE_LAT_MID",
+        "perfusion_weight": 0.5
+      },
+      {
+        "artery_segment_id": "SEG_LCX_DIST",
+        "zone_id": "ZONE_LAT_MID",
+        "perfusion_weight": 0.5
+      },
+      {
+        "artery_segment_id": "SEG_OM2",
+        "zone_id": "ZONE_LAT_MID",
+        "perfusion_weight": 0.35
+      },
+      {
+        "artery_segment_id": "SEG_RCA_MID",
+        "zone_id": "ZONE_INF_BASAL",
+        "perfusion_weight": 0.5
+      },
+      {
+        "artery_segment_id": "SEG_AM",
+        "zone_id": "ZONE_INF_BASAL",
+        "perfusion_weight": 0.25
+      },
+      {
+        "artery_segment_id": "SEG_PLV",
+        "zone_id": "ZONE_INF_BASAL",
+        "perfusion_weight": 0.25
+      },
+      {
+        "artery_segment_id": "SEG_RCA_DIST",
+        "zone_id": "ZONE_INF_MID",
+        "perfusion_weight": 0.45
+      },
+      {
+        "artery_segment_id": "SEG_PDA",
+        "zone_id": "ZONE_INF_MID",
+        "perfusion_weight": 0.55
+      },
+      {
+        "artery_segment_id": "SEG_PDA",
+        "zone_id": "ZONE_SEPT_MID",
+        "perfusion_weight": 0.5
+      },
+      {
+        "artery_segment_id": "SEG_PDA",
+        "zone_id": "ZONE_APICAL",
+        "perfusion_weight": 0.15
+      }
+    ]
+  },
+  "patients": [
+    {
+      "id": "PAT-101",
+      "name": "Arthur Pendelton",
+      "age": 65,
+      "gender": "Male",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Exertional angina upon walking 200m; stable symptoms for 6 months.",
+      "benchmark_type": "STABLE_SEVERE_STENOSIS",
+      "biomarkers": {
+        "id": "BIO-101",
+        "patient_id": "PAT-101",
+        "apob_mg_dl": 88.0,
+        "lpa_nmol_l": 42.0,
+        "hscrp_mg_l": 1.1,
+        "ldl_c_mg_dl": 104.0,
+        "troponin_i_ng_ml": 0.012,
+        "hba1c_pct": 5.5
+      },
+      "plaques": [
+        {
+          "id": "PLQ-101-LAD-MID",
+          "artery_segment_id": "SEG_LAD_MID",
+          "stenosis_pct": 72.0,
+          "plaque_type": "fibrocalcific",
+          "cap_thickness_um": 185.0,
+          "core_lipid_ratio": 0.15,
+          "calcification_score": 8.5,
+          "vulnerability_score": 0.065,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_LAD_D2_S1",
+          "distance_to_bifurcation_mm": 6.2,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LAD_MID",
+            "downstream_segments_count": 4,
+            "downstream_segments": [
+              "SEG_D2",
+              "SEG_LAD_DIST",
+              "SEG_S1",
+              "SEG_LAD_MID"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_MID",
+                "zone_name": "Mid Anterior",
+                "wall": "Anterior",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_MID",
+                  "SEG_D2"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_BASAL",
+                "zone_name": "Basal Septal",
+                "wall": "Septal",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_DIST"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 47.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-102",
+      "name": "Marcus Vance",
+      "age": 52,
+      "gender": "Male",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Asymptomatic executive; routine corporate health checkup with subtle fatigue.",
+      "benchmark_type": "RUPTURE_PARADOX_VULNERABLE",
+      "biomarkers": {
+        "id": "BIO-102",
+        "patient_id": "PAT-102",
+        "apob_mg_dl": 148.0,
+        "lpa_nmol_l": 192.0,
+        "hscrp_mg_l": 4.8,
+        "ldl_c_mg_dl": 162.0,
+        "troponin_i_ng_ml": 0.038,
+        "hba1c_pct": 5.8
+      },
+      "plaques": [
+        {
+          "id": "PLQ-102-LAD-PROX",
+          "artery_segment_id": "SEG_LAD_PROX",
+          "stenosis_pct": 38.0,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 42.0,
+          "core_lipid_ratio": 0.68,
+          "calcification_score": 0.8,
+          "vulnerability_score": 0.99,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": "BIF_LM_LAD_LCX",
+          "distance_to_bifurcation_mm": 1.8,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LAD_PROX",
+            "downstream_segments_count": 6,
+            "downstream_segments": [
+              "SEG_D2",
+              "SEG_S1",
+              "SEG_LAD_DIST",
+              "SEG_LAD_MID",
+              "SEG_LAD_PROX",
+              "SEG_D1"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_BASAL",
+                "zone_name": "Basal Anterior",
+                "wall": "Anterior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_PROX",
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_ANT_MID",
+                "zone_name": "Mid Anterior",
+                "wall": "Anterior",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_MID",
+                  "SEG_D2"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_BASAL",
+                "zone_name": "Basal Septal",
+                "wall": "Septal",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_DIST"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 68.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-103",
+      "name": "Elena Rostova",
+      "age": 68,
+      "gender": "Female",
+      "smoker": false,
+      "diabetes": true,
+      "hypertension": true,
+      "clinical_presentation": "Atypical dyspnea on exertion, poorly controlled diabetes for 14 years.",
+      "benchmark_type": "DIABETIC_DIFFUSE_TRIPLE_VESSEL",
+      "biomarkers": {
+        "id": "BIO-103",
+        "patient_id": "PAT-103",
+        "apob_mg_dl": 122.0,
+        "lpa_nmol_l": 88.0,
+        "hscrp_mg_l": 3.4,
+        "ldl_c_mg_dl": 135.0,
+        "troponin_i_ng_ml": 0.025,
+        "hba1c_pct": 9.2
+      },
+      "plaques": [
+        {
+          "id": "PLQ-103-RCA-MID",
+          "artery_segment_id": "SEG_RCA_MID",
+          "stenosis_pct": 55.0,
+          "plaque_type": "mixed",
+          "cap_thickness_um": 75.0,
+          "core_lipid_ratio": 0.42,
+          "calcification_score": 3.5,
+          "vulnerability_score": 0.487,
+          "rupture_risk_category": "MODERATE",
+          "adjacent_bifurcation_id": "BIF_RCA_PDA_PLV",
+          "distance_to_bifurcation_mm": 14.0,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_MID",
+            "downstream_segments_count": 5,
+            "downstream_segments": [
+              "SEG_AM",
+              "SEG_PDA",
+              "SEG_RCA_MID",
+              "SEG_RCA_DIST",
+              "SEG_PLV"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_MID",
+                  "SEG_AM",
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        },
+        {
+          "id": "PLQ-103-LCX-PROX",
+          "artery_segment_id": "SEG_LCX_PROX",
+          "stenosis_pct": 48.0,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 58.0,
+          "core_lipid_ratio": 0.55,
+          "calcification_score": 1.2,
+          "vulnerability_score": 0.849,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": "BIF_LCX_OM1",
+          "distance_to_bifurcation_mm": 3.5,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LCX_PROX",
+            "downstream_segments_count": 4,
+            "downstream_segments": [
+              "SEG_OM1",
+              "SEG_LCX_PROX",
+              "SEG_LCX_DIST",
+              "SEG_OM2"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_LCX_PROX",
+                  "SEG_OM1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_MID",
+                "zone_name": "Mid Lateral",
+                "wall": "Lateral",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_OM1",
+                  "SEG_LCX_DIST",
+                  "SEG_OM2"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 23.0,
+            "clinical_severity": "REGIONAL_ISCHEMIA"
+          }
+        },
+        {
+          "id": "PLQ-103-LAD-MID",
+          "artery_segment_id": "SEG_LAD_MID",
+          "stenosis_pct": 52.0,
+          "plaque_type": "fibrous",
+          "cap_thickness_um": 110.0,
+          "core_lipid_ratio": 0.25,
+          "calcification_score": 4.0,
+          "vulnerability_score": 0.209,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_LAD_D2_S1",
+          "distance_to_bifurcation_mm": 8.0,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LAD_MID",
+            "downstream_segments_count": 4,
+            "downstream_segments": [
+              "SEG_D2",
+              "SEG_LAD_DIST",
+              "SEG_S1",
+              "SEG_LAD_MID"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_MID",
+                "zone_name": "Mid Anterior",
+                "wall": "Anterior",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_MID",
+                  "SEG_D2"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_BASAL",
+                "zone_name": "Basal Septal",
+                "wall": "Septal",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_DIST"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 47.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-104",
+      "name": "David Chen",
+      "age": 58,
+      "gender": "Male",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": false,
+      "clinical_presentation": "Episodes of rest chest tightness radiating to the left arm during early morning.",
+      "benchmark_type": "ACUTE_CIRCUMFLEX_BIFURCATION",
+      "biomarkers": {
+        "id": "BIO-104",
+        "patient_id": "PAT-104",
+        "apob_mg_dl": 135.0,
+        "lpa_nmol_l": 110.0,
+        "hscrp_mg_l": 3.9,
+        "ldl_c_mg_dl": 148.0,
+        "troponin_i_ng_ml": 0.032,
+        "hba1c_pct": 5.6
+      },
+      "plaques": [
+        {
+          "id": "PLQ-104-LCX-PROX",
+          "artery_segment_id": "SEG_LCX_PROX",
+          "stenosis_pct": 62.0,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 52.0,
+          "core_lipid_ratio": 0.6,
+          "calcification_score": 1.5,
+          "vulnerability_score": 0.953,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": "BIF_LCX_OM1",
+          "distance_to_bifurcation_mm": 2.1,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LCX_PROX",
+            "downstream_segments_count": 4,
+            "downstream_segments": [
+              "SEG_OM1",
+              "SEG_LCX_PROX",
+              "SEG_LCX_DIST",
+              "SEG_OM2"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_LCX_PROX",
+                  "SEG_OM1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_MID",
+                "zone_name": "Mid Lateral",
+                "wall": "Lateral",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_OM1",
+                  "SEG_LCX_DIST",
+                  "SEG_OM2"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 23.0,
+            "clinical_severity": "REGIONAL_ISCHEMIA"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-105",
+      "name": "Sarah Jenkins",
+      "age": 42,
+      "gender": "Female",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": false,
+      "clinical_presentation": "Annual preventative cardiology screening; highly active endurance athlete.",
+      "benchmark_type": "HEALTHY_CONTROL",
+      "biomarkers": {
+        "id": "BIO-105",
+        "patient_id": "PAT-105",
+        "apob_mg_dl": 62.0,
+        "lpa_nmol_l": 18.0,
+        "hscrp_mg_l": 0.4,
+        "ldl_c_mg_dl": 74.0,
+        "troponin_i_ng_ml": 0.005,
+        "hba1c_pct": 5.1
+      },
+      "plaques": []
+    },
+    {
+      "id": "PAT-106",
+      "name": "James White",
+      "age": 62,
+      "gender": "Male",
+      "smoker": true,
+      "diabetes": true,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 62, smoker=True, diabetes=True.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-106",
+        "patient_id": "PAT-106",
+        "apob_mg_dl": 153.0,
+        "lpa_nmol_l": 121.3,
+        "hscrp_mg_l": 4.9,
+        "ldl_c_mg_dl": 151.4,
+        "troponin_i_ng_ml": 0.009,
+        "hba1c_pct": 6.3
+      },
+      "plaques": [
+        {
+          "id": "PLQ-106-1",
+          "artery_segment_id": "SEG_RCA_PROX",
+          "stenosis_pct": 74.5,
+          "plaque_type": "fibrocalcific",
+          "cap_thickness_um": 173.6,
+          "core_lipid_ratio": 0.17,
+          "calcification_score": 6.3,
+          "vulnerability_score": 0.114,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": null,
+          "distance_to_bifurcation_mm": null,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_PROX",
+            "downstream_segments_count": 6,
+            "downstream_segments": [
+              "SEG_AM",
+              "SEG_PDA",
+              "SEG_PLV",
+              "SEG_RCA_DIST",
+              "SEG_RCA_PROX",
+              "SEG_RCA_MID"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_MID",
+                  "SEG_AM",
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        },
+        {
+          "id": "PLQ-106-2",
+          "artery_segment_id": "SEG_LAD_MID",
+          "stenosis_pct": 44.8,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 44.2,
+          "core_lipid_ratio": 0.51,
+          "calcification_score": 2.0,
+          "vulnerability_score": 0.901,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": "BIF_LAD_D2_S1",
+          "distance_to_bifurcation_mm": 4.1,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LAD_MID",
+            "downstream_segments_count": 4,
+            "downstream_segments": [
+              "SEG_D2",
+              "SEG_LAD_DIST",
+              "SEG_S1",
+              "SEG_LAD_MID"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_MID",
+                "zone_name": "Mid Anterior",
+                "wall": "Anterior",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_MID",
+                  "SEG_D2"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_BASAL",
+                "zone_name": "Basal Septal",
+                "wall": "Septal",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_DIST"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 47.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-107",
+      "name": "William Johnson",
+      "age": 74,
+      "gender": "Female",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 74, smoker=False, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-107",
+        "patient_id": "PAT-107",
+        "apob_mg_dl": 116.9,
+        "lpa_nmol_l": 176.7,
+        "hscrp_mg_l": 4.0,
+        "ldl_c_mg_dl": 134.3,
+        "troponin_i_ng_ml": 0.028,
+        "hba1c_pct": 5.5
+      },
+      "plaques": []
+    },
+    {
+      "id": "PAT-108",
+      "name": "Elizabeth Williams",
+      "age": 59,
+      "gender": "Female",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 59, smoker=False, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-108",
+        "patient_id": "PAT-108",
+        "apob_mg_dl": 140.9,
+        "lpa_nmol_l": 46.7,
+        "hscrp_mg_l": 2.5,
+        "ldl_c_mg_dl": 154.7,
+        "troponin_i_ng_ml": 0.033,
+        "hba1c_pct": 5.4
+      },
+      "plaques": []
+    },
+    {
+      "id": "PAT-109",
+      "name": "Sarah White",
+      "age": 60,
+      "gender": "Male",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": false,
+      "clinical_presentation": "Referred for coronary evaluation. Age 60, smoker=True, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-109",
+        "patient_id": "PAT-109",
+        "apob_mg_dl": 144.4,
+        "lpa_nmol_l": 123.6,
+        "hscrp_mg_l": 5.4,
+        "ldl_c_mg_dl": 162.7,
+        "troponin_i_ng_ml": 0.036,
+        "hba1c_pct": 5.1
+      },
+      "plaques": []
+    },
+    {
+      "id": "PAT-110",
+      "name": "William Williams",
+      "age": 58,
+      "gender": "Female",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": false,
+      "clinical_presentation": "Referred for coronary evaluation. Age 58, smoker=False, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-110",
+        "patient_id": "PAT-110",
+        "apob_mg_dl": 88.1,
+        "lpa_nmol_l": 112.4,
+        "hscrp_mg_l": 5.5,
+        "ldl_c_mg_dl": 98.6,
+        "troponin_i_ng_ml": 0.011,
+        "hba1c_pct": 5.0
+      },
+      "plaques": [
+        {
+          "id": "PLQ-110-1",
+          "artery_segment_id": "SEG_RCA_PROX",
+          "stenosis_pct": 65.0,
+          "plaque_type": "fibrocalcific",
+          "cap_thickness_um": 186.7,
+          "core_lipid_ratio": 0.15,
+          "calcification_score": 9.8,
+          "vulnerability_score": 0.069,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": null,
+          "distance_to_bifurcation_mm": null,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_PROX",
+            "downstream_segments_count": 6,
+            "downstream_segments": [
+              "SEG_AM",
+              "SEG_PDA",
+              "SEG_PLV",
+              "SEG_RCA_DIST",
+              "SEG_RCA_PROX",
+              "SEG_RCA_MID"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_MID",
+                  "SEG_AM",
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        },
+        {
+          "id": "PLQ-110-2",
+          "artery_segment_id": "SEG_D1",
+          "stenosis_pct": 80.1,
+          "plaque_type": "fibrocalcific",
+          "cap_thickness_um": 152.2,
+          "core_lipid_ratio": 0.12,
+          "calcification_score": 8.3,
+          "vulnerability_score": 0.093,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_LAD_D1",
+          "distance_to_bifurcation_mm": 5.8,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_D1",
+            "downstream_segments_count": 1,
+            "downstream_segments": [
+              "SEG_D1"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_BASAL",
+                "zone_name": "Basal Anterior",
+                "wall": "Anterior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 21.0,
+            "clinical_severity": "REGIONAL_ISCHEMIA"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-111",
+      "name": "William Moore",
+      "age": 45,
+      "gender": "Male",
+      "smoker": false,
+      "diabetes": true,
+      "hypertension": false,
+      "clinical_presentation": "Referred for coronary evaluation. Age 45, smoker=False, diabetes=True.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-111",
+        "patient_id": "PAT-111",
+        "apob_mg_dl": 153.8,
+        "lpa_nmol_l": 164.9,
+        "hscrp_mg_l": 2.4,
+        "ldl_c_mg_dl": 158.8,
+        "troponin_i_ng_ml": 0.011,
+        "hba1c_pct": 5.2
+      },
+      "plaques": [
+        {
+          "id": "PLQ-111-1",
+          "artery_segment_id": "SEG_PDA",
+          "stenosis_pct": 65.5,
+          "plaque_type": "fibrous",
+          "cap_thickness_um": 100.5,
+          "core_lipid_ratio": 0.27,
+          "calcification_score": 4.2,
+          "vulnerability_score": 0.239,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_RCA_PDA_PLV",
+          "distance_to_bifurcation_mm": 3.6,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_PDA",
+            "downstream_segments_count": 1,
+            "downstream_segments": [
+              "SEG_PDA"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 35.0,
+            "clinical_severity": "EXTENSIVE_ISCHEMIA"
+          }
+        },
+        {
+          "id": "PLQ-111-2",
+          "artery_segment_id": "SEG_D1",
+          "stenosis_pct": 41.5,
+          "plaque_type": "mixed",
+          "cap_thickness_um": 127.2,
+          "core_lipid_ratio": 0.43,
+          "calcification_score": 5.2,
+          "vulnerability_score": 0.378,
+          "rupture_risk_category": "MODERATE",
+          "adjacent_bifurcation_id": "BIF_LAD_D1",
+          "distance_to_bifurcation_mm": 4.3,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_D1",
+            "downstream_segments_count": 1,
+            "downstream_segments": [
+              "SEG_D1"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_BASAL",
+                "zone_name": "Basal Anterior",
+                "wall": "Anterior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 21.0,
+            "clinical_severity": "REGIONAL_ISCHEMIA"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-112",
+      "name": "Anthony Martinez",
+      "age": 60,
+      "gender": "Female",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": false,
+      "clinical_presentation": "Referred for coronary evaluation. Age 60, smoker=True, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-112",
+        "patient_id": "PAT-112",
+        "apob_mg_dl": 97.3,
+        "lpa_nmol_l": 109.8,
+        "hscrp_mg_l": 1.9,
+        "ldl_c_mg_dl": 111.2,
+        "troponin_i_ng_ml": 0.036,
+        "hba1c_pct": 5.0
+      },
+      "plaques": [
+        {
+          "id": "PLQ-112-1",
+          "artery_segment_id": "SEG_RCA_PROX",
+          "stenosis_pct": 48.5,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 55.0,
+          "core_lipid_ratio": 0.74,
+          "calcification_score": 2.3,
+          "vulnerability_score": 0.861,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": null,
+          "distance_to_bifurcation_mm": null,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_PROX",
+            "downstream_segments_count": 6,
+            "downstream_segments": [
+              "SEG_AM",
+              "SEG_PDA",
+              "SEG_PLV",
+              "SEG_RCA_DIST",
+              "SEG_RCA_PROX",
+              "SEG_RCA_MID"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_MID",
+                  "SEG_AM",
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-113",
+      "name": "Richard Perez",
+      "age": 68,
+      "gender": "Male",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 68, smoker=False, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-113",
+        "patient_id": "PAT-113",
+        "apob_mg_dl": 89.1,
+        "lpa_nmol_l": 80.9,
+        "hscrp_mg_l": 3.9,
+        "ldl_c_mg_dl": 89.3,
+        "troponin_i_ng_ml": 0.014,
+        "hba1c_pct": 5.0
+      },
+      "plaques": [
+        {
+          "id": "PLQ-113-1",
+          "artery_segment_id": "SEG_LAD_MID",
+          "stenosis_pct": 69.4,
+          "plaque_type": "fibrous",
+          "cap_thickness_um": 74.3,
+          "core_lipid_ratio": 0.3,
+          "calcification_score": 4.3,
+          "vulnerability_score": 0.241,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_LAD_D2_S1",
+          "distance_to_bifurcation_mm": 5.8,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LAD_MID",
+            "downstream_segments_count": 4,
+            "downstream_segments": [
+              "SEG_D2",
+              "SEG_LAD_DIST",
+              "SEG_S1",
+              "SEG_LAD_MID"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_MID",
+                "zone_name": "Mid Anterior",
+                "wall": "Anterior",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_MID",
+                  "SEG_D2"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_BASAL",
+                "zone_name": "Basal Septal",
+                "wall": "Septal",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_DIST"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 47.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        },
+        {
+          "id": "PLQ-113-2",
+          "artery_segment_id": "SEG_LAD_PROX",
+          "stenosis_pct": 53.9,
+          "plaque_type": "mixed",
+          "cap_thickness_um": 117.1,
+          "core_lipid_ratio": 0.41,
+          "calcification_score": 2.7,
+          "vulnerability_score": 0.439,
+          "rupture_risk_category": "MODERATE",
+          "adjacent_bifurcation_id": "BIF_LM_LAD_LCX",
+          "distance_to_bifurcation_mm": 2.8,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LAD_PROX",
+            "downstream_segments_count": 6,
+            "downstream_segments": [
+              "SEG_D2",
+              "SEG_S1",
+              "SEG_LAD_DIST",
+              "SEG_LAD_MID",
+              "SEG_LAD_PROX",
+              "SEG_D1"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_BASAL",
+                "zone_name": "Basal Anterior",
+                "wall": "Anterior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_PROX",
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_ANT_MID",
+                "zone_name": "Mid Anterior",
+                "wall": "Anterior",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_MID",
+                  "SEG_D2"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_BASAL",
+                "zone_name": "Basal Septal",
+                "wall": "Septal",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_DIST"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 68.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-114",
+      "name": "Lisa Johnson",
+      "age": 51,
+      "gender": "Male",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": false,
+      "clinical_presentation": "Referred for coronary evaluation. Age 51, smoker=True, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-114",
+        "patient_id": "PAT-114",
+        "apob_mg_dl": 99.3,
+        "lpa_nmol_l": 52.4,
+        "hscrp_mg_l": 4.6,
+        "ldl_c_mg_dl": 97.8,
+        "troponin_i_ng_ml": 0.012,
+        "hba1c_pct": 5.3
+      },
+      "plaques": [
+        {
+          "id": "PLQ-114-1",
+          "artery_segment_id": "SEG_LAD_PROX",
+          "stenosis_pct": 52.8,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 52.8,
+          "core_lipid_ratio": 0.45,
+          "calcification_score": 0.4,
+          "vulnerability_score": 0.904,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": "BIF_LM_LAD_LCX",
+          "distance_to_bifurcation_mm": 2.7,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LAD_PROX",
+            "downstream_segments_count": 6,
+            "downstream_segments": [
+              "SEG_D2",
+              "SEG_S1",
+              "SEG_LAD_DIST",
+              "SEG_LAD_MID",
+              "SEG_LAD_PROX",
+              "SEG_D1"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_BASAL",
+                "zone_name": "Basal Anterior",
+                "wall": "Anterior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_PROX",
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_ANT_MID",
+                "zone_name": "Mid Anterior",
+                "wall": "Anterior",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_MID",
+                  "SEG_D2"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_BASAL",
+                "zone_name": "Basal Septal",
+                "wall": "Septal",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_DIST"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 68.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        },
+        {
+          "id": "PLQ-114-2",
+          "artery_segment_id": "SEG_OM1",
+          "stenosis_pct": 69.6,
+          "plaque_type": "mixed",
+          "cap_thickness_um": 124.1,
+          "core_lipid_ratio": 0.28,
+          "calcification_score": 2.0,
+          "vulnerability_score": 0.471,
+          "rupture_risk_category": "MODERATE",
+          "adjacent_bifurcation_id": "BIF_LCX_OM1",
+          "distance_to_bifurcation_mm": 5.9,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_OM1",
+            "downstream_segments_count": 1,
+            "downstream_segments": [
+              "SEG_OM1"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_OM1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_MID",
+                "zone_name": "Mid Lateral",
+                "wall": "Lateral",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_OM1"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 23.0,
+            "clinical_severity": "REGIONAL_ISCHEMIA"
+          }
+        },
+        {
+          "id": "PLQ-114-3",
+          "artery_segment_id": "SEG_RCA_PROX",
+          "stenosis_pct": 54.4,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 59.1,
+          "core_lipid_ratio": 0.69,
+          "calcification_score": 1.7,
+          "vulnerability_score": 0.885,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": null,
+          "distance_to_bifurcation_mm": null,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_PROX",
+            "downstream_segments_count": 6,
+            "downstream_segments": [
+              "SEG_AM",
+              "SEG_PDA",
+              "SEG_PLV",
+              "SEG_RCA_DIST",
+              "SEG_RCA_PROX",
+              "SEG_RCA_MID"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_MID",
+                  "SEG_AM",
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-115",
+      "name": "Mary Jackson",
+      "age": 79,
+      "gender": "Female",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 79, smoker=True, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-115",
+        "patient_id": "PAT-115",
+        "apob_mg_dl": 130.5,
+        "lpa_nmol_l": 194.3,
+        "hscrp_mg_l": 4.5,
+        "ldl_c_mg_dl": 128.4,
+        "troponin_i_ng_ml": 0.025,
+        "hba1c_pct": 5.6
+      },
+      "plaques": []
+    },
+    {
+      "id": "PAT-116",
+      "name": "Margaret Davis",
+      "age": 70,
+      "gender": "Female",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 70, smoker=True, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-116",
+        "patient_id": "PAT-116",
+        "apob_mg_dl": 140.5,
+        "lpa_nmol_l": 135.8,
+        "hscrp_mg_l": 3.9,
+        "ldl_c_mg_dl": 152.1,
+        "troponin_i_ng_ml": 0.026,
+        "hba1c_pct": 5.6
+      },
+      "plaques": [
+        {
+          "id": "PLQ-116-1",
+          "artery_segment_id": "SEG_PDA",
+          "stenosis_pct": 39.3,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 39.3,
+          "core_lipid_ratio": 0.64,
+          "calcification_score": 1.3,
+          "vulnerability_score": 0.99,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": "BIF_RCA_PDA_PLV",
+          "distance_to_bifurcation_mm": 3.0,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_PDA",
+            "downstream_segments_count": 1,
+            "downstream_segments": [
+              "SEG_PDA"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 35.0,
+            "clinical_severity": "EXTENSIVE_ISCHEMIA"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-117",
+      "name": "Charles Brown",
+      "age": 49,
+      "gender": "Male",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 49, smoker=False, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-117",
+        "patient_id": "PAT-117",
+        "apob_mg_dl": 99.7,
+        "lpa_nmol_l": 28.4,
+        "hscrp_mg_l": 1.9,
+        "ldl_c_mg_dl": 101.8,
+        "troponin_i_ng_ml": 0.023,
+        "hba1c_pct": 5.3
+      },
+      "plaques": [
+        {
+          "id": "PLQ-117-1",
+          "artery_segment_id": "SEG_RCA_DIST",
+          "stenosis_pct": 61.7,
+          "plaque_type": "mixed",
+          "cap_thickness_um": 103.3,
+          "core_lipid_ratio": 0.44,
+          "calcification_score": 2.4,
+          "vulnerability_score": 0.477,
+          "rupture_risk_category": "MODERATE",
+          "adjacent_bifurcation_id": "BIF_RCA_PDA_PLV",
+          "distance_to_bifurcation_mm": 4.9,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_DIST",
+            "downstream_segments_count": 3,
+            "downstream_segments": [
+              "SEG_PDA",
+              "SEG_RCA_DIST",
+              "SEG_PLV"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-118",
+      "name": "John Rodriguez",
+      "age": 63,
+      "gender": "Male",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 63, smoker=False, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-118",
+        "patient_id": "PAT-118",
+        "apob_mg_dl": 123.9,
+        "lpa_nmol_l": 66.5,
+        "hscrp_mg_l": 3.3,
+        "ldl_c_mg_dl": 142.7,
+        "troponin_i_ng_ml": 0.039,
+        "hba1c_pct": 5.0
+      },
+      "plaques": [
+        {
+          "id": "PLQ-118-1",
+          "artery_segment_id": "SEG_D1",
+          "stenosis_pct": 41.7,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 39.3,
+          "core_lipid_ratio": 0.74,
+          "calcification_score": 0.6,
+          "vulnerability_score": 0.99,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": "BIF_LAD_D1",
+          "distance_to_bifurcation_mm": 5.7,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_D1",
+            "downstream_segments_count": 1,
+            "downstream_segments": [
+              "SEG_D1"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_BASAL",
+                "zone_name": "Basal Anterior",
+                "wall": "Anterior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 21.0,
+            "clinical_severity": "REGIONAL_ISCHEMIA"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-119",
+      "name": "Mark Thompson",
+      "age": 54,
+      "gender": "Female",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 54, smoker=False, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-119",
+        "patient_id": "PAT-119",
+        "apob_mg_dl": 82.6,
+        "lpa_nmol_l": 39.9,
+        "hscrp_mg_l": 2.3,
+        "ldl_c_mg_dl": 99.2,
+        "troponin_i_ng_ml": 0.037,
+        "hba1c_pct": 5.6
+      },
+      "plaques": [
+        {
+          "id": "PLQ-119-1",
+          "artery_segment_id": "SEG_LAD_MID",
+          "stenosis_pct": 62.4,
+          "plaque_type": "fibrocalcific",
+          "cap_thickness_um": 184.8,
+          "core_lipid_ratio": 0.23,
+          "calcification_score": 9.7,
+          "vulnerability_score": 0.07,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_LAD_D2_S1",
+          "distance_to_bifurcation_mm": 3.7,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LAD_MID",
+            "downstream_segments_count": 4,
+            "downstream_segments": [
+              "SEG_D2",
+              "SEG_LAD_DIST",
+              "SEG_S1",
+              "SEG_LAD_MID"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_MID",
+                "zone_name": "Mid Anterior",
+                "wall": "Anterior",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_MID",
+                  "SEG_D2"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_BASAL",
+                "zone_name": "Basal Septal",
+                "wall": "Septal",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_DIST"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 47.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        },
+        {
+          "id": "PLQ-119-2",
+          "artery_segment_id": "SEG_RCA_DIST",
+          "stenosis_pct": 58.0,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 40.8,
+          "core_lipid_ratio": 0.57,
+          "calcification_score": 0.6,
+          "vulnerability_score": 0.988,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": "BIF_RCA_PDA_PLV",
+          "distance_to_bifurcation_mm": 3.4,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_DIST",
+            "downstream_segments_count": 3,
+            "downstream_segments": [
+              "SEG_PDA",
+              "SEG_RCA_DIST",
+              "SEG_PLV"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        },
+        {
+          "id": "PLQ-119-3",
+          "artery_segment_id": "SEG_PDA",
+          "stenosis_pct": 75.7,
+          "plaque_type": "fibrocalcific",
+          "cap_thickness_um": 159.9,
+          "core_lipid_ratio": 0.12,
+          "calcification_score": 8.4,
+          "vulnerability_score": 0.078,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_RCA_PDA_PLV",
+          "distance_to_bifurcation_mm": 4.4,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_PDA",
+            "downstream_segments_count": 1,
+            "downstream_segments": [
+              "SEG_PDA"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 35.0,
+            "clinical_severity": "EXTENSIVE_ISCHEMIA"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-120",
+      "name": "Sandra Anderson",
+      "age": 67,
+      "gender": "Female",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 67, smoker=True, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-120",
+        "patient_id": "PAT-120",
+        "apob_mg_dl": 92.0,
+        "lpa_nmol_l": 52.7,
+        "hscrp_mg_l": 3.4,
+        "ldl_c_mg_dl": 108.2,
+        "troponin_i_ng_ml": 0.044,
+        "hba1c_pct": 5.1
+      },
+      "plaques": [
+        {
+          "id": "PLQ-120-1",
+          "artery_segment_id": "SEG_LCX_DIST",
+          "stenosis_pct": 56.4,
+          "plaque_type": "fibrous",
+          "cap_thickness_um": 126.4,
+          "core_lipid_ratio": 0.27,
+          "calcification_score": 5.4,
+          "vulnerability_score": 0.19,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_LCX_OM1",
+          "distance_to_bifurcation_mm": 5.8,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LCX_DIST",
+            "downstream_segments_count": 2,
+            "downstream_segments": [
+              "SEG_OM2",
+              "SEG_LCX_DIST"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_LAT_MID",
+                "zone_name": "Mid Lateral",
+                "wall": "Lateral",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LCX_DIST",
+                  "SEG_OM2"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 12.0,
+            "clinical_severity": "REGIONAL_ISCHEMIA"
+          }
+        },
+        {
+          "id": "PLQ-120-2",
+          "artery_segment_id": "SEG_RCA_DIST",
+          "stenosis_pct": 45.2,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 59.0,
+          "core_lipid_ratio": 0.54,
+          "calcification_score": 1.6,
+          "vulnerability_score": 0.804,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": "BIF_RCA_PDA_PLV",
+          "distance_to_bifurcation_mm": 3.9,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_DIST",
+            "downstream_segments_count": 3,
+            "downstream_segments": [
+              "SEG_PDA",
+              "SEG_RCA_DIST",
+              "SEG_PLV"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-121",
+      "name": "Daniel Wilson",
+      "age": 45,
+      "gender": "Female",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": false,
+      "clinical_presentation": "Referred for coronary evaluation. Age 45, smoker=False, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-121",
+        "patient_id": "PAT-121",
+        "apob_mg_dl": 149.9,
+        "lpa_nmol_l": 158.7,
+        "hscrp_mg_l": 1.6,
+        "ldl_c_mg_dl": 158.2,
+        "troponin_i_ng_ml": 0.043,
+        "hba1c_pct": 5.6
+      },
+      "plaques": [
+        {
+          "id": "PLQ-121-1",
+          "artery_segment_id": "SEG_RCA_DIST",
+          "stenosis_pct": 60.5,
+          "plaque_type": "fibrocalcific",
+          "cap_thickness_um": 164.7,
+          "core_lipid_ratio": 0.16,
+          "calcification_score": 6.9,
+          "vulnerability_score": 0.089,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_RCA_PDA_PLV",
+          "distance_to_bifurcation_mm": 3.5,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_DIST",
+            "downstream_segments_count": 3,
+            "downstream_segments": [
+              "SEG_PDA",
+              "SEG_RCA_DIST",
+              "SEG_PLV"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        },
+        {
+          "id": "PLQ-121-2",
+          "artery_segment_id": "SEG_LAD_PROX",
+          "stenosis_pct": 62.1,
+          "plaque_type": "fibrous",
+          "cap_thickness_um": 124.2,
+          "core_lipid_ratio": 0.37,
+          "calcification_score": 3.1,
+          "vulnerability_score": 0.234,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_LM_LAD_LCX",
+          "distance_to_bifurcation_mm": 2.4,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LAD_PROX",
+            "downstream_segments_count": 6,
+            "downstream_segments": [
+              "SEG_D2",
+              "SEG_S1",
+              "SEG_LAD_DIST",
+              "SEG_LAD_MID",
+              "SEG_LAD_PROX",
+              "SEG_D1"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_BASAL",
+                "zone_name": "Basal Anterior",
+                "wall": "Anterior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_PROX",
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_ANT_MID",
+                "zone_name": "Mid Anterior",
+                "wall": "Anterior",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_MID",
+                  "SEG_D2"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_BASAL",
+                "zone_name": "Basal Septal",
+                "wall": "Septal",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_DIST"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 68.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-122",
+      "name": "Charles Martin",
+      "age": 65,
+      "gender": "Female",
+      "smoker": false,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 65, smoker=False, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-122",
+        "patient_id": "PAT-122",
+        "apob_mg_dl": 110.2,
+        "lpa_nmol_l": 190.7,
+        "hscrp_mg_l": 5.0,
+        "ldl_c_mg_dl": 110.0,
+        "troponin_i_ng_ml": 0.008,
+        "hba1c_pct": 5.3
+      },
+      "plaques": [
+        {
+          "id": "PLQ-122-1",
+          "artery_segment_id": "SEG_LCX_PROX",
+          "stenosis_pct": 76.3,
+          "plaque_type": "fibrocalcific",
+          "cap_thickness_um": 193.8,
+          "core_lipid_ratio": 0.13,
+          "calcification_score": 6.0,
+          "vulnerability_score": 0.093,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_LCX_OM1",
+          "distance_to_bifurcation_mm": 3.2,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LCX_PROX",
+            "downstream_segments_count": 4,
+            "downstream_segments": [
+              "SEG_OM1",
+              "SEG_LCX_PROX",
+              "SEG_LCX_DIST",
+              "SEG_OM2"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_LCX_PROX",
+                  "SEG_OM1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_MID",
+                "zone_name": "Mid Lateral",
+                "wall": "Lateral",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_OM1",
+                  "SEG_LCX_DIST",
+                  "SEG_OM2"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 23.0,
+            "clinical_severity": "REGIONAL_ISCHEMIA"
+          }
+        },
+        {
+          "id": "PLQ-122-2",
+          "artery_segment_id": "SEG_LAD_PROX",
+          "stenosis_pct": 52.5,
+          "plaque_type": "fibrocalcific",
+          "cap_thickness_um": 173.2,
+          "core_lipid_ratio": 0.19,
+          "calcification_score": 5.9,
+          "vulnerability_score": 0.102,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_LM_LAD_LCX",
+          "distance_to_bifurcation_mm": 2.2,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LAD_PROX",
+            "downstream_segments_count": 6,
+            "downstream_segments": [
+              "SEG_D2",
+              "SEG_S1",
+              "SEG_LAD_DIST",
+              "SEG_LAD_MID",
+              "SEG_LAD_PROX",
+              "SEG_D1"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_BASAL",
+                "zone_name": "Basal Anterior",
+                "wall": "Anterior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_PROX",
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_ANT_MID",
+                "zone_name": "Mid Anterior",
+                "wall": "Anterior",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_MID",
+                  "SEG_D2"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_BASAL",
+                "zone_name": "Basal Septal",
+                "wall": "Septal",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_S1"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_LAD_DIST"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 68.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-123",
+      "name": "James Brown",
+      "age": 72,
+      "gender": "Male",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": false,
+      "clinical_presentation": "Referred for coronary evaluation. Age 72, smoker=True, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-123",
+        "patient_id": "PAT-123",
+        "apob_mg_dl": 129.5,
+        "lpa_nmol_l": 123.7,
+        "hscrp_mg_l": 6.7,
+        "ldl_c_mg_dl": 129.0,
+        "troponin_i_ng_ml": 0.01,
+        "hba1c_pct": 5.3
+      },
+      "plaques": [
+        {
+          "id": "PLQ-123-1",
+          "artery_segment_id": "SEG_RCA_PROX",
+          "stenosis_pct": 56.4,
+          "plaque_type": "soft_lipid",
+          "cap_thickness_um": 49.6,
+          "core_lipid_ratio": 0.69,
+          "calcification_score": 2.3,
+          "vulnerability_score": 0.982,
+          "rupture_risk_category": "CRITICAL",
+          "adjacent_bifurcation_id": null,
+          "distance_to_bifurcation_mm": null,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_PROX",
+            "downstream_segments_count": 6,
+            "downstream_segments": [
+              "SEG_AM",
+              "SEG_PDA",
+              "SEG_PLV",
+              "SEG_RCA_DIST",
+              "SEG_RCA_PROX",
+              "SEG_RCA_MID"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_MID",
+                  "SEG_AM",
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        },
+        {
+          "id": "PLQ-123-2",
+          "artery_segment_id": "SEG_RCA_MID",
+          "stenosis_pct": 41.4,
+          "plaque_type": "mixed",
+          "cap_thickness_um": 121.7,
+          "core_lipid_ratio": 0.34,
+          "calcification_score": 4.6,
+          "vulnerability_score": 0.413,
+          "rupture_risk_category": "MODERATE",
+          "adjacent_bifurcation_id": "BIF_RCA_PDA_PLV",
+          "distance_to_bifurcation_mm": 9.3,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_MID",
+            "downstream_segments_count": 5,
+            "downstream_segments": [
+              "SEG_AM",
+              "SEG_PDA",
+              "SEG_RCA_MID",
+              "SEG_RCA_DIST",
+              "SEG_PLV"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_MID",
+                  "SEG_AM",
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    },
+    {
+      "id": "PAT-124",
+      "name": "Linda Rodriguez",
+      "age": 73,
+      "gender": "Male",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 73, smoker=True, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-124",
+        "patient_id": "PAT-124",
+        "apob_mg_dl": 117.2,
+        "lpa_nmol_l": 120.3,
+        "hscrp_mg_l": 2.3,
+        "ldl_c_mg_dl": 118.8,
+        "troponin_i_ng_ml": 0.033,
+        "hba1c_pct": 5.5
+      },
+      "plaques": []
+    },
+    {
+      "id": "PAT-125",
+      "name": "Sarah Anderson",
+      "age": 71,
+      "gender": "Female",
+      "smoker": true,
+      "diabetes": false,
+      "hypertension": true,
+      "clinical_presentation": "Referred for coronary evaluation. Age 71, smoker=True, diabetes=False.",
+      "benchmark_type": null,
+      "biomarkers": {
+        "id": "BIO-125",
+        "patient_id": "PAT-125",
+        "apob_mg_dl": 155.4,
+        "lpa_nmol_l": 199.5,
+        "hscrp_mg_l": 1.6,
+        "ldl_c_mg_dl": 175.2,
+        "troponin_i_ng_ml": 0.028,
+        "hba1c_pct": 5.3
+      },
+      "plaques": [
+        {
+          "id": "PLQ-125-1",
+          "artery_segment_id": "SEG_D1",
+          "stenosis_pct": 64.4,
+          "plaque_type": "mixed",
+          "cap_thickness_um": 118.0,
+          "core_lipid_ratio": 0.43,
+          "calcification_score": 3.7,
+          "vulnerability_score": 0.44,
+          "rupture_risk_category": "MODERATE",
+          "adjacent_bifurcation_id": "BIF_LAD_D1",
+          "distance_to_bifurcation_mm": 5.2,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_D1",
+            "downstream_segments_count": 1,
+            "downstream_segments": [
+              "SEG_D1"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_ANT_BASAL",
+                "zone_name": "Basal Anterior",
+                "wall": "Anterior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              },
+              {
+                "id": "ZONE_LAT_BASAL",
+                "zone_name": "Basal Lateral",
+                "wall": "Lateral",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_D1"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 21.0,
+            "clinical_severity": "REGIONAL_ISCHEMIA"
+          }
+        },
+        {
+          "id": "PLQ-125-2",
+          "artery_segment_id": "SEG_LCX_DIST",
+          "stenosis_pct": 77.9,
+          "plaque_type": "fibrocalcific",
+          "cap_thickness_um": 197.9,
+          "core_lipid_ratio": 0.23,
+          "calcification_score": 9.4,
+          "vulnerability_score": 0.078,
+          "rupture_risk_category": "LOW",
+          "adjacent_bifurcation_id": "BIF_LCX_OM1",
+          "distance_to_bifurcation_mm": 7.7,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_LCX_DIST",
+            "downstream_segments_count": 2,
+            "downstream_segments": [
+              "SEG_OM2",
+              "SEG_LCX_DIST"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_LAT_MID",
+                "zone_name": "Mid Lateral",
+                "wall": "Lateral",
+                "mass_pct": 12.0,
+                "perfused_by_segments": [
+                  "SEG_LCX_DIST",
+                  "SEG_OM2"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 12.0,
+            "clinical_severity": "REGIONAL_ISCHEMIA"
+          }
+        },
+        {
+          "id": "PLQ-125-3",
+          "artery_segment_id": "SEG_RCA_DIST",
+          "stenosis_pct": 61.5,
+          "plaque_type": "mixed",
+          "cap_thickness_um": 75.0,
+          "core_lipid_ratio": 0.34,
+          "calcification_score": 5.0,
+          "vulnerability_score": 0.424,
+          "rupture_risk_category": "MODERATE",
+          "adjacent_bifurcation_id": "BIF_RCA_PDA_PLV",
+          "distance_to_bifurcation_mm": 3.2,
+          "downstream_blast_radius": {
+            "source_segment_id": "SEG_RCA_DIST",
+            "downstream_segments_count": 3,
+            "downstream_segments": [
+              "SEG_PDA",
+              "SEG_RCA_DIST",
+              "SEG_PLV"
+            ],
+            "threatened_zones": [
+              {
+                "id": "ZONE_INF_BASAL",
+                "zone_name": "Basal Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_PLV"
+                ]
+              },
+              {
+                "id": "ZONE_INF_MID",
+                "zone_name": "Mid Inferior",
+                "wall": "Inferior",
+                "mass_pct": 10.0,
+                "perfused_by_segments": [
+                  "SEG_RCA_DIST",
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_SEPT_MID",
+                "zone_name": "Mid Septal",
+                "wall": "Septal",
+                "mass_pct": 11.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              },
+              {
+                "id": "ZONE_APICAL",
+                "zone_name": "Apical Territory & True Apex",
+                "wall": "Apical",
+                "mass_pct": 14.0,
+                "perfused_by_segments": [
+                  "SEG_PDA"
+                ]
+              }
+            ],
+            "total_myocardium_mass_at_risk_pct": 45.0,
+            "clinical_severity": "MASSIVE_INFARCTION"
+          }
+        }
+      ]
+    }
+  ]
+}

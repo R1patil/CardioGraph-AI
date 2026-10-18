@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CardioGraph AI — Autonomous Coronary Vascular Network & Plaque Rupture Predictor</title>
+  <meta name="description" content="Autonomous clinical AI agent powered by FalkorDB for coronary vascular network reconstruction, plaque vulnerability scoring, and ischemic blast radius prediction." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-group">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+            <path d="M4 13h3l2 -4l3 8l2 -4h6" class="ecg-line" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="logo-title">CardioGraph <span class="badge-ai">AI</span></h1>
+          <p class="logo-subtitle">FalkorDB Context Agent</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="section-label-row">
+        <h3 class="section-label">Patient Cohort</h3>
+        <span class="cohort-count" id="cohort-count">25 Profiles</span>
+      </div>
+      <div class="patient-list" id="patient-list">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <button class="btn-upload" id="btn-upload-toggle">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Upload Patient Data
+      </button>
+      <button class="btn-sidebar-secondary" id="btn-sidebar-inspector">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        FalkorDB Graph Inspector
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="engine-status" id="engine-status">
+        <span class="status-dot active"></span>
+        <span class="status-text">FalkorDB GraphBLAS</span>
+      </div>
+      <p class="version-text">v1.0 · WeMakeDevs Graph Hacks</p>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" id="main-content">
+
+    <!-- WELCOME SCREEN (shown when no patient selected) -->
+    <div class="welcome-screen" id="welcome-screen">
+      <div class="welcome-inner">
+        <div class="welcome-icon-large">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+            <path d="M4 13h3l2 -4l3 8l2 -4h6" class="ecg-line" />
+          </svg>
+        </div>
+        <h2 class="welcome-title">Autonomous Coronary Vascular Network & Plaque Rupture Predictor</h2>
+        <p class="welcome-desc">
+          Powered by <strong>FalkorDB</strong> GraphBLAS linear algebra traversal and <strong>LangGraph</strong> clinical reasoning.
+          Select a patient to reconstruct their 17-segment coronary flow tree, detect high-shear vulnerable plaques, and simulate downstream ischemic necrosis.
+        </p>
+        <div class="welcome-features">
+          <div class="feature-pill">
+            <span class="feature-icon">🫀</span>
+            <span>17-Segment Flow Graph</span>
+          </div>
+          <div class="feature-pill">
+            <span class="feature-icon">⚡</span>
+            <span>Rupture Paradox Traversal</span>
+          </div>
+          <div class="feature-pill">
+            <span class="feature-icon">💥</span>
+            <span>Ischemic Blast Radius</span>
+          </div>
+          <div class="feature-pill">
+            <span class="feature-icon">🧬</span>
+            <span>Demis Hassabis ApoB Model</span>
+          </div>
+          <div class="feature-pill">
+            <span class="feature-icon">🤖</span>
+            <span>LangGraph Agent Core</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PATIENT DASHBOARD (shown when patient selected) -->
+    <div class="patient-dashboard" id="patient-dashboard" style="display:none;">
+
+      <!-- TOP BAR: Patient Info & Controls -->
+      <div class="dashboard-topbar" id="dashboard-topbar">
+        <div class="patient-info-bar">
+          <div class="patient-avatar" id="patient-avatar">?</div>
+          <div class="patient-info-text">
+            <div class="patient-title-row">
+              <h2 class="patient-name" id="patient-name">—</h2>
+              <div class="risk-badge" id="risk-badge">—</div>
+              <span class="paradox-indicator" id="paradox-indicator" style="display:none;">⚠️ RUPTURE PARADOX DETECTED</span>
+            </div>
+            <p class="patient-meta" id="patient-meta">—</p>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <!-- Clinical Mode Switcher -->
+          <div class="mode-switch-container">
+            <button class="mode-btn active" id="btn-mode-patient" data-mode="patient" title="Plain-English compassionate guidance">
+              <span class="mode-icon">💙</span> Patient Care
+            </button>
+            <button class="mode-btn" id="btn-mode-doctor" data-mode="doctor" title="Hemodynamics, WSS, Syntax Score & Cath Lab protocols">
+              <span class="mode-icon">🩺</span> Cardiologist
+            </button>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <button class="btn-topbar-action btn-rupture-action" id="btn-top-simulate" title="Simulate acute thrombotic occlusion">
+            <span class="action-icon">⚡</span> Simulate Rupture
+          </button>
+          <button class="btn-topbar-action btn-inspector-action" id="btn-top-inspector" title="Inspect Cypher traversal and MCP tools">
+            <span class="action-icon">🔬</span> FalkorDB Graph
+          </button>
+        </div>
+      </div>
+
+      <!-- VIEW TABS NAVIGATION -->
+      <div class="view-tabs-bar">
+        <div class="view-tabs">
+          <button class="tab-btn active" data-tab="tab-vascular">
+            <span class="tab-icon">🫀</span> Vascular Network & Rupture Sim
+          </button>
+          <button class="tab-btn" data-tab="tab-chat">
+            <span class="tab-icon">💬</span> AI Care Consultation
+          </button>
+          <button class="tab-btn" data-tab="tab-biomarkers">
+            <span class="tab-icon">🔬</span> Biomarkers & Plaque Phenotype
+          </button>
+          <button class="tab-btn" data-tab="tab-cypher">
+            <span class="tab-icon">⚡</span> Cypher Queries & MCP Tools
+          </button>
+        </div>
+        <div class="view-options">
+          <button class="btn-split-toggle" id="btn-split-toggle" title="Toggle Split View (Tree + Chat side-by-side)">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+              <line x1="12" y1="3" x2="12" y2="21"></line>
+            </svg>
+            Split View
+          </button>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT TABS WRAPPER -->
+      <div class="dashboard-views-container" id="dashboard-views-container">
+
+        <!-- TAB 1: VASCULAR NETWORK & RUPTURE SIMULATION -->
+        <div class="tab-pane active" id="tab-vascular">
+
+          <!-- RISK SUMMARY CARDS -->
+          <div class="risk-cards" id="risk-cards">
+            <div class="risk-card card-stenosis" id="card-stenosis">
+              <div class="card-icon">🫀</div>
+              <div class="card-value" id="val-stenosis">—</div>
+              <div class="card-label">Anatomical Stenosis</div>
+              <div class="card-detail" id="detail-stenosis">—</div>
+            </div>
+            <div class="risk-card card-cap" id="card-cap">
+              <div class="card-icon">🛡️</div>
+              <div class="card-value" id="val-cap">—</div>
+              <div class="card-label">Cap Thickness (TCFA)</div>
+              <div class="card-detail" id="detail-cap">—</div>
+            </div>
+            <div class="risk-card card-vuln" id="card-vuln">
+              <div class="card-icon">⚡</div>
+              <div class="card-value" id="val-vuln">—</div>
+              <div class="card-label">Plaque Vulnerability Index</div>
+              <div class="card-detail" id="detail-vuln">—</div>
+            </div>
+            <div class="risk-card card-blast" id="card-blast">
+              <div class="card-icon">💔</div>
+              <div class="card-value" id="val-blast">—</div>
+              <div class="card-label">Ischemic Blast Radius</div>
+              <div class="card-detail" id="detail-blast">—</div>
+            </div>
+          </div>
+
+          <!-- CODE STEMI EMERGENCY HEADS-UP DISPLAY (HIDDEN BY DEFAULT) -->
+          <div class="stemi-hud-banner" id="stemi-hud-banner" style="display:none;">
+            <div class="stemi-hud-header">
+              <div class="stemi-pulse-icon">🚨</div>
+              <div class="stemi-hud-titles">
+                <h3 class="stemi-hud-title">CODE STEMI ACTIVATION — ACUTE THROMBOTIC OCCLUSION</h3>
+                <p class="stemi-hud-subtitle" id="stemi-hud-subtitle">Complete cessation of downstream coronary perfusion</p>
+              </div>
+              <div class="stemi-timer-box">
+                <span class="stemi-timer-label">TIME TO MYOCYTE DEATH</span>
+                <span class="stemi-timer-clock" id="stemi-timer-clock">20:00</span>
+              </div>
+            </div>
+            <div class="stemi-metrics-grid">
+              <div class="stemi-metric">
+                <span class="stemi-metric-label">Occluded Vessel</span>
+                <span class="stemi-metric-value" id="stemi-occluded-vessel">SEG_LAD_PROX</span>
+              </div>
+              <div class="stemi-metric">
+                <span class="stemi-metric-label">Myocardial Mass Threatened</span>
+                <span class="stemi-metric-value danger-text" id="stemi-mass-threatened">68.0% LV Mass</span>
+              </div>
+              <div class="stemi-metric">
+                <span class="stemi-metric-label">Predicted 12-Lead ECG</span>
+                <span class="stemi-metric-value" id="stemi-ecg-leads">ST-Elevation in V1, V2, V3, V4</span>
+              </div>
+              <div class="stemi-metric">
+                <span class="stemi-metric-label">Emergency Protocol</span>
+                <span class="stemi-metric-value highlight-text" id="stemi-protocol">Primary PCI / Catheterization</span>
+              </div>
+            </div>
+            <div class="stemi-actions-row">
+              <button class="btn-stemi-action btn-deploy-stent" id="btn-deploy-stent">
+                🛠️ Deploy Drug-Eluting Stent (Restore TIMI-3 Flow)
+              </button>
+              <button class="btn-stemi-action btn-reset-sim" id="btn-reset-sim">
+                🔄 Reset Baseline Perfusion
+              </button>
+            </div>
+          </div>
+
+          <!-- VASCULAR TREE INTERACTIVE CANVAS SECTION -->
+          <div class="vascular-stage-container">
+            <div class="stage-header">
+              <div class="stage-header-left">
+                <h3 class="stage-title">Coronary Vascular Flow Tree</h3>
+                <span class="stage-caption">Directed Hemodynamic Graph (FalkorDB Directed Reachability Model)</span>
+              </div>
+              <div class="stage-controls">
+                <div class="tree-filter-pills">
+                  <button class="filter-pill active" data-filter="all">All Vessels (17)</button>
+                  <button class="filter-pill" data-filter="LCA">LAD / Left Main</button>
+                  <button class="filter-pill" data-filter="LCX">Circumflex (LCx)</button>
+                  <button class="filter-pill" data-filter="RCA">Right Coronary (RCA)</button>
+                </div>
+                <div class="stage-quick-buttons">
+                  <button class="btn-stage-action" id="btn-sim-rupture-canvas">
+                    ⚡ Trigger Rupture
+                  </button>
+                  <button class="btn-stage-action" id="btn-toggle-legend">
+                    ℹ️ Legend
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- SVG CANVAS -->
+            <div class="svg-canvas-wrapper" id="svg-canvas-wrapper">
+              <svg id="coronary-tree-svg" viewBox="0 0 960 540" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <!-- Glow Filters -->
+                  <filter id="glow-cyan" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3.5" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  <filter id="glow-danger" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="5" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  <filter id="glow-plaque" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="4" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  
+                  <!-- Flow Gradients -->
+                  <linearGradient id="grad-artery-normal" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ef4444" />
+                    <stop offset="50%" stop-color="#f43f5e" />
+                    <stop offset="100%" stop-color="#f59e0b" />
+                  </linearGradient>
+
+                  <linearGradient id="grad-artery-ischemic" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#475569" />
+                    <stop offset="100%" stop-color="#334155" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Grid Background & Anatomical Guides -->
+                <g class="svg-background">
+                  <rect x="0" y="0" width="960" height="540" fill="transparent" />
+                  <!-- Subtle cardiac silhouette watermark -->
+                  <path d="M 480,100 C 350,10 180,120 280,310 C 340,420 450,490 480,510 C 510,490 620,420 680,310 C 780,120 610,10 480,100 Z"
+                        fill="rgba(244, 63, 94, 0.015)" stroke="rgba(244, 63, 94, 0.04)" stroke-width="2" stroke-dasharray="6 6" />
+                </g>
+
+                <!-- Ascending Aorta Root -->
+                <g class="aorta-root" transform="translate(480, 50)">
+                  <path d="M -40,-25 C -40,-45 40,-45 40,-25 C 40,5 25,25 0,30 C -25,25 -40,5 -40,-25 Z"
+                        fill="url(#grad-artery-normal)" opacity="0.35" />
+                  <ellipse cx="0" cy="0" rx="28" ry="16" fill="#1e293b" stroke="#f43f5e" stroke-width="2.5" />
+                  <text x="0" y="4" text-anchor="middle" fill="#f1f5f9" font-size="11" font-weight="700">AORTA ROOT</text>
+                  <circle cx="-25" cy="5" r="4" fill="#06b6d4" />
+                  <circle cx="25" cy="5" r="4" fill="#06b6d4" />
+                </g>
+
+                <!-- ARTERIAL SEGMENTS (PATHS) -->
+                <g id="svg-artery-paths">
+                  <!-- Populated dynamically and styled via JS -->
+                </g>
+
+                <!-- BIFURCATION NODES -->
+                <g id="svg-bifurcations">
+                  <!-- Populated dynamically via JS -->
+                </g>
+
+                <!-- PLAQUE LESION MARKERS -->
+                <g id="svg-plaques">
+                  <!-- Populated dynamically via JS -->
+                </g>
+
+                <!-- STENT MESH OVERLAY (WHEN REPAIRED) -->
+                <g id="svg-stent-overlay" style="display:none;"></g>
+
+                <!-- ANATOMICAL LABELS & BADGES -->
+                <g id="svg-labels"></g>
+              </svg>
+
+              <!-- FLOATING VESSEL INSPECTOR TOOLTIP -->
+              <div class="vessel-inspector-card" id="vessel-inspector-card" style="display:none;">
+                <div class="inspector-header">
+                  <span class="inspector-badge" id="insp-type">LAD</span>
+                  <h4 class="inspector-title" id="insp-title">Proximal LAD</h4>
+                  <button class="inspector-close" id="insp-close">&times;</button>
+                </div>
+                <div class="inspector-body">
+                  <div class="insp-grid">
+                    <div class="insp-item">
+                      <span class="insp-label">Caliber</span>
+                      <span class="insp-val" id="insp-caliber">3.8 mm</span>
+                    </div>
+                    <div class="insp-item">
+                      <span class="insp-label">Length</span>
+                      <span class="insp-val" id="insp-length">22.0 mm</span>
+                    </div>
+                    <div class="insp-item">
+                      <span class="insp-label">Resting Flow</span>
+                      <span class="insp-val" id="insp-flow">110 mL/min</span>
+                    </div>
+                    <div class="insp-item">
+                      <span class="insp-label">Resistance</span>
+                      <span class="insp-val" id="insp-res">0.14 R</span>
+                    </div>
+                  </div>
+                  <div class="insp-status-row" id="insp-status-row">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CANVAS LEGEND BAR -->
+            <div class="canvas-legend-bar" id="canvas-legend-bar">
+              <div class="legend-item">
+                <span class="legend-swatch normal-flow"></span>
+                <span>Normal Perfusion (TIMI-3)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-swatch ischemic-flow"></span>
+                <span>Ischemic Occlusion (TIMI-0)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-swatch plaque-tcfa"></span>
+                <span>Thin-Cap Plaque (&lt;65µm TCFA)</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-swatch bifurcation-node"></span>
+                <span>High-Turbulence Bifurcation</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 17-SEGMENT AHA MYOCARDIAL PERFUSION TERRITORY MAP -->
+          <div class="myocardium-territory-section">
+            <div class="territory-header">
+              <div>
+                <h3 class="territory-title">17-Segment AHA Myocardial Perfusion Territories</h3>
+                <p class="territory-subtitle">Downstream Perfusion Mapping & Ischemia Blast Zone Tracking</p>
+              </div>
+              <div class="territory-status-tag" id="territory-status-tag">
+                <span class="status-pulse-dot healthy"></span>
+                <span id="territory-status-text">All 9 Territories Perfused (100% Viable)</span>
+              </div>
+            </div>
+
+            <div class="zones-grid" id="zones-grid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- TAB 2: AI CARE CONSULTATION (LANGGRAPH AGENT) -->
+        <div class="tab-pane" id="tab-chat">
+          <div class="chat-wrapper-split">
+
+            <!-- MODE EXPLANATION BANNER -->
+            <div class="mode-info-card" id="mode-info-card">
+              <div class="mode-card-icon" id="mode-card-icon">💙</div>
+              <div class="mode-card-content">
+                <h4 id="mode-card-title">Patient Care Companion Active</h4>
+                <p id="mode-card-desc">
+                  Providing empathetic, plain-English guidance on plaque vulnerability, medication regimens, heart-healthy nutrition, and daily safety precautions.
+                </p>
+              </div>
+              <div class="mode-card-pill" id="mode-card-pill">Plain English Mode</div>
+            </div>
+
+            <!-- AI REASONING PIPELINE (Step-by-step visualization) -->
+            <div class="reasoning-section" id="reasoning-section" style="display:none;">
+              <h3 class="section-heading">
+                <span class="heading-icon">🧠</span>
+                LangGraph 4-Stage Clinical Reasoning Pipeline
+              </h3>
+              <div class="reasoning-steps" id="reasoning-steps">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <!-- CHATBOT INTERFACE -->
+            <div class="chat-section">
+              <h3 class="section-heading">
+                <span class="heading-icon">💬</span>
+                Consultation Transcript
+              </h3>
+
+              <!-- Quick Question Buttons -->
+              <div class="quick-questions" id="quick-questions">
+                <!-- Populated dynamically based on Patient / Doctor Mode -->
+              </div>
+
+              <!-- Chat Messages Area -->
+              <div class="chat-messages" id="chat-messages">
+                <div class="chat-msg bot-msg">
+                  <div class="msg-avatar bot-avatar">AI</div>
+                  <div class="msg-content">
+                    <p>Hello! I'm your <strong>CardioGraph AI Care Assistant</strong>. Select any patient from the sidebar to inspect their coronary graph, run acute plaque rupture simulations, or ask questions about treatment, nutrition, and exercise.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chat Input -->
+              <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chat-input" placeholder="Ask about treatment, diet, exercise, warning signs..." />
+                <button class="chat-send-btn" id="chat-send-btn" title="Send message">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB 3: BIOMARKERS & PLAQUE PHENOTYPE -->
+        <div class="tab-pane" id="tab-biomarkers">
+          <div class="biomarkers-tab-layout">
+
+            <!-- SCIENTIFIC FOUNDATIONS CALLOUT -->
+            <div class="scientific-banner">
+              <div class="banner-badge">Nobel Laureate & Biophysics Foundations</div>
+              <h3 class="banner-heading">The Demis Hassabis ApoB100 Paradigm & Dario Amodei Biophysics Model</h3>
+              <p class="banner-text">
+                Traditional cardiology focuses solely on LDL-C and pipe percent-narrowing. Groundbreaking work by <strong>Sir Demis Hassabis</strong> (Google DeepMind) mapped ApoB100—the definitive atherogenic particle scaffold. 
+                Combined with <strong>Dario Amodei</strong>'s biophysical systemic modeling, CardioGraph AI links biological particle count directly with fluid dynamic shear stress at coronary bifurcations.
+              </p>
+            </div>
+
+            <!-- BIOMARKER GAUGES GRID -->
+            <div class="biomarker-cards-grid">
+              <!-- ApoB -->
+              <div class="biomarker-card" id="bio-card-apob">
+                <div class="bio-header">
+                  <span class="bio-symbol">ApoB-100</span>
+                  <span class="bio-badge danger" id="badge-apob">HIGH RISK</span>
+                </div>
+                <div class="bio-value-row">
+                  <span class="bio-val" id="val-apob">—</span>
+                  <span class="bio-unit">mg/dL</span>
+                </div>
+                <div class="bio-gauge-bar">
+                  <div class="bio-gauge-fill" id="fill-apob" style="width: 75%;"></div>
+                </div>
+                <div class="bio-target-row">
+                  <span>Target: &lt; 70 mg/dL</span>
+                  <span class="bio-delta" id="delta-apob">+78 mg/dL above goal</span>
+                </div>
+                <p class="bio-description">Primary atherogenic lipoprotein particle count. AlphaFold structural target.</p>
+              </div>
+
+              <!-- hs-CRP -->
+              <div class="biomarker-card" id="bio-card-hscrp">
+                <div class="bio-header">
+                  <span class="bio-symbol">hs-CRP</span>
+                  <span class="bio-badge danger" id="badge-hscrp">ACTIVE INFLAMMATION</span>
+                </div>
+                <div class="bio-value-row">
+                  <span class="bio-val" id="val-hscrp">—</span>
+                  <span class="bio-unit">mg/L</span>
+                </div>
+                <div class="bio-gauge-bar">
+                  <div class="bio-gauge-fill" id="fill-hscrp" style="width: 80%;"></div>
+                </div>
+                <div class="bio-target-row">
+                  <span>Target: &lt; 1.0 mg/L</span>
+                  <span class="bio-delta" id="delta-hscrp">+3.8 mg/L elevated</span>
+                </div>
+                <p class="bio-description">Systemic arterial inflammation promoting fibrous cap degradation via MMP-9.</p>
+              </div>
+
+              <!-- Lp(a) -->
+              <div class="biomarker-card" id="bio-card-lpa">
+                <div class="bio-header">
+                  <span class="bio-symbol">Lp(a)</span>
+                  <span class="bio-badge warning" id="badge-lpa">ELEVATED</span>
+                </div>
+                <div class="bio-value-row">
+                  <span class="bio-val" id="val-lpa">—</span>
+                  <span class="bio-unit">nmol/L</span>
+                </div>
+                <div class="bio-gauge-bar">
+                  <div class="bio-gauge-fill" id="fill-lpa" style="width: 65%;"></div>
+                </div>
+                <div class="bio-target-row">
+                  <span>Target: &lt; 75 nmol/L</span>
+                  <span class="bio-delta" id="delta-lpa">+117 nmol/L genetic risk</span>
+                </div>
+                <p class="bio-description">Genetically determined atherothrombotic particle. Promotes antifibrinolytic thrombosis.</p>
+              </div>
+
+              <!-- LDL-C -->
+              <div class="biomarker-card" id="bio-card-ldl">
+                <div class="bio-header">
+                  <span class="bio-symbol">LDL-C</span>
+                  <span class="bio-badge" id="badge-ldl">ELEVATED</span>
+                </div>
+                <div class="bio-value-row">
+                  <span class="bio-val" id="val-ldl">—</span>
+                  <span class="bio-unit">mg/dL</span>
+                </div>
+                <div class="bio-gauge-bar">
+                  <div class="bio-gauge-fill" id="fill-ldl" style="width: 60%;"></div>
+                </div>
+                <div class="bio-target-row">
+                  <span>Target: &lt; 70 mg/dL</span>
+                  <span class="bio-delta" id="delta-ldl">+92 mg/dL</span>
+                </div>
+                <p class="bio-description">Conventional low-density cholesterol concentration.</p>
+              </div>
+
+              <!-- Troponin-I -->
+              <div class="biomarker-card" id="bio-card-trop">
+                <div class="bio-header">
+                  <span class="bio-symbol">hs-cTnI</span>
+                  <span class="bio-badge success" id="badge-trop">NORMAL BASELINE</span>
+                </div>
+                <div class="bio-value-row">
+                  <span class="bio-val" id="val-trop">—</span>
+                  <span class="bio-unit">ng/mL</span>
+                </div>
+                <div class="bio-gauge-bar">
+                  <div class="bio-gauge-fill" id="fill-trop" style="width: 25%;"></div>
+                </div>
+                <div class="bio-target-row">
+                  <span>Upper Reference: &lt; 0.04 ng/mL</span>
+                  <span class="bio-delta" id="delta-trop">Non-infarcted baseline</span>
+                </div>
+                <p class="bio-description">High-sensitivity cardiac troponin I for detecting acute ongoing myocyte necrosis.</p>
+              </div>
+            </div>
+
+            <!-- THE RUPTURE PARADOX CLINICAL DEEP DIVE -->
+            <div class="paradox-deepdive-card">
+              <div class="deepdive-badge">Clinical Mechanism</div>
+              <h3 class="deepdive-title">The Rupture Paradox: Why 65% of Fatal Heart Attacks Occur at &lt;50% Stenosis</h3>
+              <div class="deepdive-content">
+                <div class="deepdive-col">
+                  <h4>The Conventional Blindspot</h4>
+                  <p>Standard luminography (angiography) only visualizes the inside hollow pipe. A lesion causing only 30% or 40% narrowing is labeled "mild" and sent home with basic aspirin.</p>
+                </div>
+                <div class="deepdive-col">
+                  <h4>The Biophysical Reality</h4>
+                  <p>Soft lipid-rich plaques undergo outward positive remodeling (Glagov remodeling). They have thin fibrous caps (&lt;65 µm) packed with macrophages. When located near arterial bifurcations, oscillating wall shear stress tears the fragile cap, triggering acute occlusive thrombosis in seconds.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB 4: CYPHER TRAVERSAL & MCP TOOLS INSPECTOR -->
+        <div class="tab-pane" id="tab-cypher">
+          <div class="cypher-tab-layout">
+
+            <div class="cypher-header-row">
+              <div>
+                <h3 class="cypher-heading">FalkorDB GraphBLAS Engine & MCP Agent Tools</h3>
+                <p class="cypher-subheading">Linear algebra sparse matrix operations powering real-time coronary context</p>
+              </div>
+              <div class="engine-badge-active" id="cypher-engine-badge">
+                <span class="badge-dot"></span>
+                <span>FalkorDB Graph Engine Active</span>
+              </div>
+            </div>
+
+            <!-- CYPHER QUERIES ACCORDION -->
+            <div class="cypher-queries-list" id="cypher-queries-list">
+              <!-- Populated dynamically via JS -->
+            </div>
+
+            <!-- LIVE MCP TOOL RUNNER -->
+            <div class="mcp-runner-section">
+              <h3 class="section-heading">
+                <span class="heading-icon">🛠️</span>
+                Interactive Model Context Protocol (MCP) Tool Runner
+              </h3>
+              <p class="mcp-desc">Execute live agent tools directly against the FalkorDB coronary knowledge graph.</p>
+
+              <div class="mcp-buttons-row">
+                <button class="btn-mcp-run active" data-tool="analyze_patient_vascular_tree">
+                  analyze_patient_vascular_tree
+                </button>
+                <button class="btn-mcp-run" data-tool="calculate_ischemic_blast_radius">
+                  calculate_ischemic_blast_radius
+                </button>
+                <button class="btn-mcp-run" data-tool="find_vulnerable_plaques">
+                  find_vulnerable_plaques
+                </button>
+                <button class="btn-mcp-run" data-tool="simulate_plaque_rupture">
+                  simulate_plaque_rupture
+                </button>
+              </div>
+
+              <div class="mcp-output-box">
+                <div class="mcp-output-header">
+                  <span id="mcp-tool-executed-label">Tool: analyze_patient_vascular_tree</span>
+                  <span class="mcp-latency" id="mcp-latency">1.8 ms (GraphBLAS)</span>
+                </div>
+                <pre class="mcp-code-block" id="mcp-json-output">// Loading MCP tool execution...</pre>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- UPLOAD PATIENT MODAL -->
+    <div class="modal-overlay" id="upload-modal" style="display:none;">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Upload Patient Vascular & Lab Data</h3>
+          <button class="modal-close" id="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-desc">Enter patient CCTA imaging & biomarker values to instantly compute Plaque Vulnerability Index (PVI) and downstream ischemic blast radius.</p>
+
+          <form id="upload-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Patient Name</label>
+                <input type="text" id="inp-name" placeholder="e.g. John Doe" required />
+              </div>
+              <div class="form-group">
+                <label>Age</label>
+                <input type="number" id="inp-age" placeholder="52" min="18" max="110" required />
+              </div>
+              <div class="form-group">
+                <label>Gender</label>
+                <select id="inp-gender">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Smoker</label>
+                <select id="inp-smoker">
+                  <option value="false">No</option>
+                  <option value="true">Yes</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Diabetes</label>
+                <select id="inp-diabetes">
+                  <option value="false">No</option>
+                  <option value="true">Yes</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Hypertension</label>
+                <select id="inp-hypertension">
+                  <option value="false">No</option>
+                  <option value="true">Yes</option>
+                </select>
+              </div>
+            </div>
+
+            <h4 class="form-section-title">Biomarker Profile (ApoB & Inflammation)</h4>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>ApoB (mg/dL)</label>
+                <input type="number" id="inp-apob" step="0.1" placeholder="148.0" />
+              </div>
+              <div class="form-group">
+                <label>hs-CRP (mg/L)</label>
+                <input type="number" id="inp-hscrp" step="0.1" placeholder="4.8" />
+              </div>
+              <div class="form-group">
+                <label>Lp(a) (nmol/L)</label>
+                <input type="number" id="inp-lpa" step="0.1" placeholder="192.0" />
+              </div>
+              <div class="form-group">
+                <label>LDL-C (mg/dL)</label>
+                <input type="number" id="inp-ldl" step="0.1" placeholder="162.0" />
+              </div>
+            </div>
+
+            <h4 class="form-section-title">CCTA Plaque Findings</h4>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Artery Segment</label>
+                <select id="inp-artery">
+                  <option value="SEG_LAD_PROX">LAD Proximal (SEG_LAD_PROX)</option>
+                  <option value="SEG_LAD_MID">LAD Mid (SEG_LAD_MID)</option>
+                  <option value="SEG_LAD_DIST">LAD Distal (SEG_LAD_DIST)</option>
+                  <option value="SEG_LCX_PROX">LCx Proximal (SEG_LCX_PROX)</option>
+                  <option value="SEG_LCX_DIST">LCx Distal (SEG_LCX_DIST)</option>
+                  <option value="SEG_RCA_PROX">RCA Proximal (SEG_RCA_PROX)</option>
+                  <option value="SEG_RCA_MID">RCA Mid (SEG_RCA_MID)</option>
+                  <option value="SEG_RCA_DIST">RCA Distal (SEG_RCA_DIST)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Stenosis (%)</label>
+                <input type="number" id="inp-stenosis" step="1" min="0" max="100" placeholder="38" />
+              </div>
+              <div class="form-group">
+                <label>Plaque Type</label>
+                <select id="inp-plaque-type">
+                  <option value="soft_lipid">Soft Lipid-Rich (Vulnerable)</option>
+                  <option value="fibrocalcific">Fibrocalcific</option>
+                  <option value="calcified">Calcified (Stable)</option>
+                  <option value="mixed">Mixed</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Cap Thickness (µm)</label>
+                <input type="number" id="inp-cap" step="1" min="10" max="500" placeholder="42" />
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              Integrate into FalkorDB Vascular Network
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- FALKORDB INSPECTOR MODAL -->
+    <div class="modal-overlay" id="inspector-modal" style="display:none;">
+      <div class="modal-card modal-large">
+        <div class="modal-header">
+          <h3>FalkorDB Graph Inspector & Real-Time Cypher Traversal</h3>
+          <button class="modal-close" id="inspector-modal-close">&times;</button>
+        </div>
+        <div class="modal-body" id="inspector-modal-body">
+          <!-- Populated by JS with Cypher queries and execution data -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
