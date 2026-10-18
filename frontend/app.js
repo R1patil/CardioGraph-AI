@@ -1699,6 +1699,124 @@ function closeInspectorModal() {
   elInspectorModal.style.display = 'none';
 }
 
+function fillStudyPreset(key) {
+  const PRESETS = {
+    promise: {
+      name: 'PROMISE-Trial Cohort #402',
+      age: 54,
+      gender: 'Male',
+      smoker: 'true',
+      diabetes: 'false',
+      hypertension: 'true',
+      apob: 152.0,
+      hscrp: 5.1,
+      lpa: 185.0,
+      ldl: 168.0,
+      artery: 'SEG_LAD_PROX',
+      stenosis: 38,
+      plaqueType: 'soft_lipid',
+      cap: 38
+    },
+    scotheart: {
+      name: 'SCOT-HEART Patient #118',
+      age: 58,
+      gender: 'Female',
+      smoker: 'true',
+      diabetes: 'true',
+      hypertension: 'true',
+      apob: 142.0,
+      hscrp: 6.4,
+      lpa: 160.0,
+      ldl: 155.0,
+      artery: 'SEG_LAD_MID',
+      stenosis: 48,
+      plaqueType: 'soft_lipid',
+      cap: 35
+    },
+    cleveland: {
+      name: 'Cleveland Clinic #14',
+      age: 63,
+      gender: 'Male',
+      smoker: 'false',
+      diabetes: 'true',
+      hypertension: 'true',
+      apob: 108.0,
+      hscrp: 1.4,
+      lpa: 42.0,
+      ldl: 135.0,
+      artery: 'SEG_RCA_PROX',
+      stenosis: 78,
+      plaqueType: 'calcified',
+      cap: 180
+    },
+    healthy: {
+      name: 'Framingham Cohort #28',
+      age: 44,
+      gender: 'Female',
+      smoker: 'false',
+      diabetes: 'false',
+      hypertension: 'false',
+      apob: 48.0,
+      hscrp: 0.4,
+      lpa: 18.0,
+      ldl: 65.0,
+      artery: 'SEG_LM',
+      stenosis: 0,
+      plaqueType: 'calcified',
+      cap: 300
+    }
+  };
+
+  const p = PRESETS[key];
+  if (!p) return;
+
+  const inpName = $('#inp-name');
+  const inpAge = $('#inp-age');
+  const inpGender = $('#inp-gender');
+  const inpSmoker = $('#inp-smoker');
+  const inpDiabetes = $('#inp-diabetes');
+  const inpHypertension = $('#inp-hypertension');
+  const inpApob = $('#inp-apob');
+  const inpHscrp = $('#inp-hscrp');
+  const inpLpa = $('#inp-lpa');
+  const inpLdl = $('#inp-ldl');
+  const inpArtery = $('#inp-artery');
+  const inpStenosis = $('#inp-stenosis');
+  const inpPlaqueType = $('#inp-plaque-type');
+  const inpCap = $('#inp-cap');
+
+  if (inpName) inpName.value = p.name;
+  if (inpAge) inpAge.value = p.age;
+  if (inpGender) inpGender.value = p.gender;
+  if (inpSmoker) inpSmoker.value = p.smoker;
+  if (inpDiabetes) inpDiabetes.value = p.diabetes;
+  if (inpHypertension) inpHypertension.value = p.hypertension;
+  if (inpApob) inpApob.value = p.apob;
+  if (inpHscrp) inpHscrp.value = p.hscrp;
+  if (inpLpa) inpLpa.value = p.lpa;
+  if (inpLdl) inpLdl.value = p.ldl;
+  if (inpArtery) inpArtery.value = p.artery;
+  if (inpStenosis) inpStenosis.value = p.stenosis;
+  if (inpPlaqueType) inpPlaqueType.value = p.plaqueType;
+  if (inpCap) inpCap.value = p.cap;
+
+  // Active preset button styling
+  $$('.preset-btn').forEach(b => b.classList.remove('active-preset'));
+  $(`#btn-preset-${key}`)?.classList.add('active-preset');
+
+  // Flash inputs with smooth cyan glow
+  const inputs = $$('#upload-form input, #upload-form select');
+  inputs.forEach(inp => {
+    inp.style.transition = 'border-color 0.25s ease, box-shadow 0.25s ease';
+    inp.style.borderColor = 'var(--accent-cyan)';
+    inp.style.boxShadow = '0 0 10px rgba(6, 182, 212, 0.45)';
+    setTimeout(() => {
+      inp.style.borderColor = '';
+      inp.style.boxShadow = '';
+    }, 700);
+  });
+}
+
 async function handleUploadSubmit(e) {
   e.preventDefault();
 
@@ -1838,6 +1956,12 @@ function setupEventListeners() {
   });
 
   $('#upload-form').addEventListener('submit', handleUploadSubmit);
+
+  // Real Study Presets in Upload Modal
+  $('#btn-preset-promise')?.addEventListener('click', () => fillStudyPreset('promise'));
+  $('#btn-preset-scotheart')?.addEventListener('click', () => fillStudyPreset('scotheart'));
+  $('#btn-preset-cleveland')?.addEventListener('click', () => fillStudyPreset('cleveland'));
+  $('#btn-preset-healthy')?.addEventListener('click', () => fillStudyPreset('healthy'));
 
   // Guide modal listeners
   $('#btn-open-guide-modal')?.addEventListener('click', openGuideModal);

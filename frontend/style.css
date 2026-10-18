@@ -3027,3 +3027,10 @@ a:hover { text-decoration: underline; }
   color: #fff;
   transform: translateY(-1px);
 }
+
+.preset-btn.active-preset {
+  background: rgba(6, 182, 212, 0.25) !important;
+  border-color: var(--accent-cyan) !important;
+  color: #fff !important;
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.45);
+}
