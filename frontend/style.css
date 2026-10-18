@@ -2978,7 +2978,52 @@ a:hover { text-decoration: underline; }
 @media (max-width: 900px) {
   .zoom-visual-grid,
   .zoom-explainer-cards,
-  .guide-sections-grid {
+  .guide-sections-grid,
+  .preset-buttons {
     grid-template-columns: 1fr;
   }
+}
+
+/* Real Study Presets in Upload Modal */
+.preset-container {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+.preset-heading {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.preset-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.preset-btn {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 8px 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.35;
+}
+
+.preset-btn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: var(--accent-cyan);
+  color: #fff;
+  transform: translateY(-1px);
 }

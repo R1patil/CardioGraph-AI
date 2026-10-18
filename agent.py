@@ -896,8 +896,10 @@ if frontend_path.exists():
 
 if __name__ == "__main__":
     import uvicorn
+    port = int(os.getenv("PORT", 8000))
+    host = "0.0.0.0" if os.getenv("PORT") else "127.0.0.1"
     print("=" * 80)
-    print("Starting CardioGraph AI MCP Agent Core on http://127.0.0.1:8000")
+    print(f"Starting CardioGraph AI MCP Agent Core on http://{host}:{port}")
     print("FalkorDB Status:", "CONNECTED" if graph_engine.is_connected else "LOCAL GRAPH ENGINE (STANDALONE)")
     print("=" * 80)
-    uvicorn.run("agent:app", host="127.0.0.1", port=8000, reload=True)
+    uvicorn.run("agent:app", host=host, port=port, reload=False)

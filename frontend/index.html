@@ -724,6 +724,16 @@
         <div class="modal-body">
           <p class="modal-desc">Enter patient CCTA imaging & biomarker values to instantly compute Plaque Vulnerability Index (PVI) and downstream ischemic blast radius.</p>
 
+          <div class="preset-container">
+            <div class="preset-heading">⚡ Real Clinical Study Presets (Click to Auto-Fill):</div>
+            <div class="preset-buttons">
+              <button type="button" class="preset-btn" id="btn-preset-promise">🔬 PROMISE Trial (Rupture Paradox: 38% Stenosis, 42 µm Cap)</button>
+              <button type="button" class="preset-btn" id="btn-preset-scotheart">🫀 SCOT-HEART (High-Risk LAD TCFA: 48% Stenosis, 35 µm Cap)</button>
+              <button type="button" class="preset-btn" id="btn-preset-cleveland">🏥 Cleveland Clinic (Severe Angina: 78% Calcified, 180 µm Cap)</button>
+              <button type="button" class="preset-btn" id="btn-preset-healthy">🛡️ Framingham Optimal (No Plaque, ApoB 48 mg/dL)</button>
+            </div>
+          </div>
+
           <form id="upload-form">
             <div class="form-grid">
               <div class="form-group">
@@ -813,7 +823,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>Cap Thickness (µm)</label>
+                <label>Cap Thickness (µm — microns)</label>
                 <input type="number" id="inp-cap" step="1" min="10" max="500" placeholder="42" />
               </div>
             </div>

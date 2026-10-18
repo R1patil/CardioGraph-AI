@@ -17,5 +17,5 @@ COPY . .
 # Expose port (default 8000)
 EXPOSE 8000
 
-# Run FastAPI app with Uvicorn
-CMD ["uvicorn", "agent:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run FastAPI app with Uvicorn (Render assigns $PORT dynamically)
+CMD ["sh", "-c", "uvicorn agent:app --host 0.0.0.0 --port ${PORT:-8000}"]
