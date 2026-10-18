@@ -25,6 +25,7 @@ let stemiInterval = null;
 let stemiSecondsLeft = 1200;         // 20 minutes countdown
 let activeTreeFilter = 'all';        // 'all', 'LCA', 'LCX', 'RCA'
 let selectedSegmentId = null;
+let isCanvasMaximized = false;
 
 // ============================================================================
 // SVG VIEWBOX ZOOM & PAN ENGINE STATE
@@ -795,6 +796,28 @@ function animateViewBoxTo(target, duration = 350) {
   zoomAnimId = requestAnimationFrame(step);
 }
 
+function toggleCanvasMaximize(forceState) {
+  const tabVascular = $('#tab-vascular');
+  if (!tabVascular) return;
+
+  if (typeof forceState === 'boolean') {
+    isCanvasMaximized = forceState;
+  } else {
+    isCanvasMaximized = !isCanvasMaximized;
+  }
+
+  tabVascular.classList.toggle('canvas-maximized', isCanvasMaximized);
+
+  const btn = $('#btn-toggle-fullscreen');
+  if (btn) {
+    btn.classList.toggle('active', isCanvasMaximized);
+    btn.innerHTML = isCanvasMaximized ? '⤢ Restore Panels' : '⛶ Maximize Tree';
+    btn.title = isCanvasMaximized
+      ? 'Restore top stat cards and bottom perfusion panels (or press ESC)'
+      : 'Maximize Tree View (Hides top & bottom boxes for full unobstructed view)';
+  }
+}
+
 function zoomCanvas(factor, centerPoint = null) {
   // Clamp width between 180 (5.3x zoom) and 960 (1x zoom)
   const newW = Math.max(180, Math.min(BASE_VIEWBOX.w, currentViewBox.w * factor));
@@ -806,12 +829,18 @@ function zoomCanvas(factor, centerPoint = null) {
   const newX = Math.max(0, Math.min(BASE_VIEWBOX.w - newW, cx - newW / 2));
   const newY = Math.max(0, Math.min(BASE_VIEWBOX.h - newH, cy - newH / 2));
 
+  // If zooming in, automatically maximize tree canvas to clear top and bottom clutter
+  if (factor < 1.0 && !isCanvasMaximized) {
+    toggleCanvasMaximize(true);
+  }
+
   animateViewBoxTo({ x: newX, y: newY, w: newW, h: newH });
 }
 
 function resetCanvasZoom() {
   selectedSegmentId = null;
   removeFocusRing();
+  toggleCanvasMaximize(false);
   animateViewBoxTo(BASE_VIEWBOX, 400);
   renderCoronaryTree();
 }
@@ -838,6 +867,7 @@ function focusOnPoint(cx, cy, targetW = 340) {
   const targetX = Math.max(0, Math.min(BASE_VIEWBOX.w - targetW, cx - targetW / 2));
   const targetY = Math.max(0, Math.min(BASE_VIEWBOX.h - targetH, cy - targetH / 2));
   addFocusRing(cx, cy);
+  toggleCanvasMaximize(true);
   animateViewBoxTo({ x: targetX, y: targetY, w: targetW, h: targetH });
 }
 
@@ -2002,6 +2032,14 @@ function setupEventListeners() {
   $('#btn-zoom-out')?.addEventListener('click', () => zoomCanvas(1.4));
   $('#btn-zoom-reset')?.addEventListener('click', () => resetCanvasZoom());
   $('#btn-zoom-focus')?.addEventListener('click', () => focusOnPlaque());
+  $('#btn-toggle-fullscreen')?.addEventListener('click', () => toggleCanvasMaximize());
+
+  // Escape key restores panels
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isCanvasMaximized) {
+      toggleCanvasMaximize(false);
+    }
+  });
 
   // Canvas Mouse Wheel Zoom & Drag Pan
   if (elCoronarySvg) {

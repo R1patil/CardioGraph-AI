@@ -3034,3 +3034,76 @@ a:hover { text-decoration: underline; }
   color: #fff !important;
   box-shadow: 0 0 12px rgba(6, 182, 212, 0.45);
 }
+
+/* ==========================================================================
+   MAXIMIZED VASCULAR TREE VIEW (COLLAPSES TOP & BOTTOM PANELS)
+   ========================================================================== */
+
+.risk-overview-grid,
+.user-guide-strip,
+.myocardium-territory-section {
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.25s ease,
+              margin 0.35s ease,
+              padding 0.35s ease;
+  overflow: hidden;
+  max-height: 800px;
+}
+
+.canvas-maximized .risk-overview-grid,
+.canvas-maximized .user-guide-strip,
+.canvas-maximized .myocardium-territory-section {
+  max-height: 0 !important;
+  opacity: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border: none !important;
+  pointer-events: none;
+}
+
+.canvas-maximized .vascular-stage-container {
+  min-height: calc(100vh - 120px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-shadow: 0 0 35px rgba(6, 182, 212, 0.2) !important;
+  border-color: rgba(6, 182, 212, 0.45) !important;
+}
+
+.canvas-maximized .svg-canvas-wrapper {
+  flex: 1 !important;
+  min-height: calc(100vh - 210px) !important;
+  height: calc(100vh - 210px) !important;
+}
+
+.canvas-maximized #coronary-tree-svg {
+  max-height: calc(100vh - 220px) !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.btn-zoom-fullscreen {
+  background: rgba(6, 182, 212, 0.15) !important;
+  border-color: rgba(6, 182, 212, 0.4) !important;
+  color: #38bdf8 !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.btn-zoom-fullscreen:hover {
+  background: rgba(6, 182, 212, 0.28) !important;
+  border-color: var(--accent-cyan) !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.btn-zoom-fullscreen.active {
+  background: var(--accent-cyan) !important;
+  border-color: var(--accent-cyan) !important;
+  color: #041019 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 0 16px rgba(6, 182, 212, 0.6) !important;
+}
